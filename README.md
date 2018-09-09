@@ -1,1 +1,1 @@
-# 3900-project
+# Repo for 3900-project course docs and code
