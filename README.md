@@ -29,17 +29,11 @@ Branch | Description | Deleted?
 - *feature-1* is checked out by dev1
 - *feature-2* is branched from *develop* by dev1
 - *feature-2* is checked out by dev2
-
-
 - dev1 does work on *feature-1*
 - dev1 adds, commits, pushes work to *feature-1*
 - dev1 creates pull request for *feature-1* --\> *develop*
-
-
 - dev2 reviews pull request and gives +1 if it is approved
 - *feature-1* is successfully merged into *develop*
-
-
 - dev2 rebases *feature-2* onto develop
 - now *develop* and *feature-2* both have the changes from *feature-1*
 - *feature-2* is still the only branch with changes from *feature-2* 
@@ -67,5 +61,7 @@ Feature and Develop
 
 
 [Merging vs Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing)
+
 [Basic Git Commands](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html)
+
 [Git Docs](https://git-scm.com/docs)
