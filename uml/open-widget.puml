@@ -1,0 +1,29 @@
+@startuml
+title Open Widget
+
+Actor User
+Participant ServiceNow
+Participant View
+Participant ClientController
+Participant ServerController
+Participant GlideSystem
+Participant GlideRecord
+
+User -> ServiceNow: Navigate to portal containing widget
+ServiceNow -> View: Load view
+
+ServerController -> GlideSystem: Get logged in user ID
+GlideSystem <- ServerController: User ID
+ServerController -> GlideRecord: Get user's data (name, title, photo)
+ServerController -> GlideRecord: Get user's manager data (name, title, photo)
+ServerController -> GlideRecord: Get user's team (names, titles, photos)
+ServerController -> GlideRecord: Get user's direct reports (names, titles, photos)
+GlideRecord -> ServerController: Queried data
+
+ServerController -> ClientController: Data object with queried data
+ClientController -> ClientController: Build GoJS graph of data
+ClientController -> View: Render graph
+
+View -> ServiceNow: Display view
+User -> ServiceNow: View graph
+@enduml
