@@ -1,0 +1,22 @@
+@startuml
+title Expand All
+
+Actor User
+Participant ServiceNow
+Participant View
+Participant ClientController
+Participant ServerController
+Participant GlideSystem
+Participant GlideRecord
+
+User -> View: Click "Expand All" button
+View -> ClientController: Expand all
+
+ClientController -> ServerController: Get all employees
+ServerController -> GlideRecord: Get all employees
+GlideRecord -> ServerController: Queried data
+
+ServerController -> ClientController: Data object with queried data
+ClientController -> ClientController: Append queried data to GoJS graph
+ClientController -> View: Re-render graph
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+title Expand Connections
+
+Actor User
+Participant ServiceNow
+Participant View
+Participant ClientController
+Participant ServerController
+Participant GlideSystem
+Participant GlideRecord
+
+User -> View: Click expand button on an employee node
+View -> ClientController: Update expansion point variable with employee's user ID
+
+ClientController -> ServerController: Update
+
+ServerController -> ServerController: Get expansion point user ID value
+ServerController -> GlideRecord: Get user's data
+ServerController -> GlideRecord: Get user's team
+ServerController -> GlideRecord: Get user's direct reports
+GlideRecord -> ServerController: Queried data
+
+ServerController -> ClientController: Data object with queried data
+ClientController -> ClientController: Append queried data to GoJS graph
+ClientController -> View: Re-render graph
+
+View -> ServiceNow: Display view
+User -> ServiceNow: View graph
+@enduml
