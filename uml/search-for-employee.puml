@@ -1,0 +1,31 @@
+@startuml
+title Search for Employee
+
+Actor User
+Participant ServiceNow
+Participant View
+Participant ClientController
+Participant ServerController
+Participant GlideSystem
+Participant GlideRecord
+
+User -> View: Enter employee name in search box
+View -> ClientController: Update focus employee field value with employee's user ID
+User -> View: Click "Search"
+
+ClientController -> ServerController: Update
+
+ServerController -> ServerController: Get focus employee user ID value
+ServerController -> GlideRecord: Get user's data
+ServerController -> GlideRecord: Get user's manager data
+ServerController -> GlideRecord: Get user's team
+ServerController -> GlideRecord: Get user's direct reports
+GlideRecord -> ServerController: Queried data
+
+ServerController -> ClientController: Data object with queried data
+ClientController -> ClientController: Build GoJS graph of data
+ClientController -> View: Re-render graph
+
+View -> ServiceNow: Display view
+User -> ServiceNow: View graph
+@enduml

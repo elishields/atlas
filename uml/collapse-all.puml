@@ -1,0 +1,17 @@
+@startuml
+title Collapse All
+
+Actor User
+Participant ServiceNow
+Participant View
+Participant ClientController
+
+User -> View: Click "Collapse All" button
+View -> ClientController: Collapse all
+
+ClientController -> ClientController: Remove all data from GoJS graph\n except the focus employee
+ClientController -> View: Re-render graph
+
+View -> ServiceNow: Display view
+User -> ServiceNow: View graph
+@enduml

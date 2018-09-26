@@ -1,0 +1,27 @@
+@startuml
+title View Employee Record
+
+Actor User
+Participant View
+Participant ClientController
+Participant ServerController
+Participant GlideSystem
+Participant GlideRecord
+
+User -> View: Click employee node
+
+View -> ClientController: Open modal
+ClientController -> ClientController: Set user ID of clicked employee for lookup
+ClientController -> ServerController: Update
+
+ServerController -> GlideRecord: Get clicked employee data (name, title, photo, contact info)
+GlideRecord -> ServerController: Queried data
+
+ServerController -> ClientController: Data object with queried data
+ClientController -> ClientController: Show data on modal
+
+User -> View: View modal
+User -> View: Click "Close"
+
+View -> ClientController: Close modal
+@enduml
