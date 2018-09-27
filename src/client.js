@@ -10,9 +10,5 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
     var client = this;
 
-    client.user = {
-        displayValue: $scope.data.name,
-        value: $scope.data.start,
-        name: 'user'
-    };
+    console.log($scope.data);
 }
