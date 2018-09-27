@@ -2,10 +2,6 @@
 
 (function () {
 
-    // Get current user object
-    var currentUser = gs.getUser();
-    console.log("Current User: " + currentUser);
-
     data.nodes = [];
     var user = {};
 
