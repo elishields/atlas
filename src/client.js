@@ -1,9 +1,10 @@
-var $ = go.GraphObject.make;
-var myDiagram =
-  $(go.Diagram, "org-chart",
-    {
-      "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
-    });
+function ($scope, $location, $http, spUtil, $timeout){ 
+	var $ = go.GraphObject.make;
+	var myDiagram =
+	  $(go.Diagram, "org-chart",
+	    {
+	      "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
+	    });
 
 // define a simple Node template
   myDiagram.nodeTemplate =
@@ -33,3 +34,5 @@ var myDiagram =
   myDiagram.model.nodeDataArray = [
     { source: "img_temp/default.png", key: "", prop1: "John Doe", prop2: "CEO" }
   ];
+
+}
