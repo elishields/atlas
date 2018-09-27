@@ -2,15 +2,26 @@
 <html>
 <head>
 	<title></title>
-	<!-- Including the GoJS library. -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.8.30/go-debug.js"></script>
 </head>
 <body>
+  <div>
+    <!-- Search -->
+    <div>
+        <sn-record-picker
+            field="client.user"
+            table="'sys_user'"
+            display-field="'name'"
+            display-fields="'email'"
+            value-field="'sys_id'"
+            search-fields="'name'"
+            page-size="100"
+        >
+        </sn-record-picker>
+    </div>
+  </div>
+  <!-- View  -->
 	<div id="org-chart"
      style="width:700px; height:500px; background-color: #FFFDFD;">
-	<!-- View  -->
 </div>
-
-<script src="client.js"></script>
 </body>
 </html>
