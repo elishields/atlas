@@ -46,10 +46,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                 $("PanelExpanderButton", "addInfo",
                     { column: 5 , row: 0}),
-                $(go.Panel, "Vertical",
+                $(go.Panel, "Table",
                     { name: "addInfo", row: 5, column: 1, columnSpan: 4, visible: false},
                     $(go.TextBlock, "Email: ",
-                        {row: 6, margin: 3, font: "bold 12pt sans-serif"}),
+                        {row: 6, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
                     $(go.TextBlock,
                         {row: 6, column: 4, margin: 10},
                         new go.Binding("text", "prop3")),
