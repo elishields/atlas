@@ -36,13 +36,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     {row: 1, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
                 $(go.TextBlock,
                     {row: 1, column: 4, margin: 10},
-                    new go.Binding("text", "prop1")),
+                    new go.Binding("text", "name")),
 
-                $(go.TextBlock, "Position: ",
+                $(go.TextBlock, "Title: ",
                     {row: 2, column: 2, font: "bold 12pt sans-serif"}),
                 $(go.TextBlock,
                     {row: 2, column: 4, margin: 10},
-                    new go.Binding("text", "prop2")),
+                    new go.Binding("text", "title")),
 
                 $("PanelExpanderButton", "addInfo",
                     { column: 5 , row: 0}),
@@ -52,18 +52,16 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         {row: 6, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
                     $(go.TextBlock,
                         {row: 6, column: 4, margin: 10},
-                        new go.Binding("text", "prop3")),
+                        new go.Binding("text", "email")),
                     $(go.TextBlock, "Phone: ",
                         {row: 8, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
                     $(go.TextBlock,
                         {row: 8, column: 4, margin: 10},
-                        new go.Binding("text", "prop4")))
+                        new go.Binding("text", "business_phone")))
 
             )
         );
 
-    myDiagram.model.nodeDataArray = [
-        {source: "img_temp/default.png", key: "", prop1: "John Doe", prop2: "CEO", prop3: "jdoe@yahoo.ca", prop4: "604-123-4568"}
-    ];
+    myDiagram.model.nodeDataArray = $scope.data.nodes;
 
 }

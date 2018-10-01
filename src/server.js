@@ -8,6 +8,7 @@
     var gr = new GlideRecord('sys_user');
     gr.get(gs.getUserID());
 
+    user.key = gs.getDisplayValue('sys_id');
     user.name = gr.getDisplayValue('name');
     user.title = gr.getDisplayValue('title');
     user.department = gr.getDisplayValue('department');
