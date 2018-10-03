@@ -62,6 +62,9 @@
 
         while (gr.next()) {
             var report = getUser(gr);
+
+            if (report.key == gs.getUserID()) continue;
+
             data.nodes.push(report);
         }
     }
