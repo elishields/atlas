@@ -5,22 +5,19 @@
     if (input) { // server.update called
         console.log('server.update called!');
 
-    } else { // Inital load
-
+    } else { // Initial load
+        // Get the logged in user
         var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
-
-        var currentUser = getUser(gr);
-        data.nodes.push(currentUser);
-
-        // manager
-        gr.get(currentUser.parent);
         data.nodes.push(getUser(gr));
 
-        // TODO get currentUser subs
+        // Get the user's reports
+        getReports(gr.getValue('sys_id'));
 
-        // TODO get currentUser Manager subs
-
+        // Get the user's manager
+        gr.get(gr.getValue('manager'));
+        data.nodes.push(getUser(gr));
+        getReports(gr.getValue('sys_id'));
     }
 
     function getUser(gr) {
@@ -54,7 +51,7 @@
 
         while (gr.next()) {
             var report = getUser(gr);
-            nodes.push(report);
+            data.nodes.push(report);
         }
     }
 
