@@ -8,6 +8,8 @@
         var currentUser = getCurrentUser();
         data.nodes.push(currentUser);
 
+        getReports(currentUser, data.nodes);
+
     }
 
     function getCurrentUser() {
@@ -29,6 +31,32 @@
 
         console.log("returning currentUser: " + currentUser.name);
         return currentUser;
+    }
+
+    function getReports(manager, nodes) {
+
+        console.log(manager);
+        console.log(nodes);
+
+        var gr = new GlideRecord('sys_user');
+
+        gr.addActiveQuery();
+        gr.addQuery('manager', manager);
+        gr.query();
+
+        while (gr.next()) {
+            console.log("gib");
+            var report = getUser(gr);
+            nodes.push(report);
+        }
+    }
+
+    function getUser(gr) {
+
+        var user = {};
+
+
+
     }
 
 })();
