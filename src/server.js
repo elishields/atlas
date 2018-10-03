@@ -1,5 +1,4 @@
 (function () {
-
     data.nodes = [];
 
     if (input) { // server.update called
@@ -17,11 +16,18 @@
         // Get the user's manager
         gr.get(gr.getValue('manager'));
         data.nodes.push(getUser(gr));
+
+        // Get the user's manager's reports
         getReports(gr.getValue('sys_id'));
     }
 
+    /**
+     * Build a node object for an employee..
+     *
+     * @param {GlideRecord} gr - the GlideRecord of the employee
+     * @return {Object} the employee object to be pushed into the nodes array
+     */
     function getUser(gr) {
-
         var user = {};
 
         user.key = gr.getValue('sys_id');
@@ -38,8 +44,13 @@
         return user;
     }
 
+    /**
+     * Build node objects for the direct reports of an employee and push them
+     * into the nodes array.
+     *
+     * @param {String} manager - the sys_id of the employee to get reports for
+     */
     function getReports(manager) {
-
         console.log(manager);
 
         var gr = new GlideRecord('sys_user');
