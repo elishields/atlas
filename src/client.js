@@ -55,6 +55,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
             )
         );
 
+    myDiagram.model = $(go.TreeModel);
+    myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
     myDiagram.model.nodeDataArray = $scope.data.nodes;
 
 }
