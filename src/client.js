@@ -53,17 +53,21 @@ function ($scope, $location, $http, spUtil, $timeout) {
 				//Panel for hidden info
                 $(go.Panel, "Table",
                     {name: "addInfo", defaultAlignment: go.Spot.Left, column: 1, row: 1, visible: false},
+                        
+                    //line separator 
+					$(go.RowColumnDefinition,
+                        { row: 2, separatorStrokeWidth: 2.5, separatorStroke: "black" }),
                 
                     $(go.TextBlock,
                         {row: 0, column: 0, margin: new go.Margin(10,5,0,5)}, 
 											new go.Binding("text", "department")),
 									
 					$(go.TextBlock,
-                        {row: 1, column: 0, margin: new go.Margin(0,5,5,5)}, 
+                        {row: 1, column: 0, margin: new go.Margin(0,5,10,5)}, 
 											new go.Binding("text", "location")),
 									
 					$(go.TextBlock,
-                        {row: 2, column: 0, margin: new go.Margin(5)}, 
+                        {row: 2, column: 0, margin: new go.Margin(10,5,5,5)}, 
 											new go.Binding("text", "email")),
 									
 				//New panel just for phones
