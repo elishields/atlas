@@ -26,7 +26,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     $(go.Picture,
                         {
                             row: 0, column: 0, rowSpan: 3,
-                            margin: 10, width: 50, height: 50, background: "red"
+                            margin: new go.Margin(5), width: 50, height: 50, background: "red"
                         },
                         new go.Binding("source"))
                         
@@ -36,11 +36,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 {defaultAlignment: go.Spot.Left, column: 1, row: 0},
                                 
                     $(go.TextBlock,
-                        {row: 1, column: 0, margin: 10, font: "bold 12pt sans-serif"},
+                        {row: 1, column: 0, margin: new go.Margin(5), font: "bold 12pt sans-serif"},
                         new go.Binding("text", "name")),
 
                     $(go.TextBlock,
-                        {row: 2, column: 0, margin: 10},
+                        {row: 2, column: 0, margin: new go.Margin(5)},
                         new go.Binding("text", "title")),
 
                     $("PanelExpanderButton", "addInfo",
@@ -53,28 +53,28 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     {name: "addInfo", defaultAlignment: go.Spot.Left, column: 1, row: 1, visible: false},
                 
                     $(go.TextBlock,
-                        {row: 0, column: 0, margin: 10}, 
+                        {row: 0, column: 0, margin: new go.Margin(5)}, 
 											new go.Binding("text", "department")),
 									
 									$(go.TextBlock,
-                        {row: 1, column: 0, margin: 10}, 
+                        {row: 1, column: 0, margin: new go.Margin(5)}, 
 											new go.Binding("text", "location")),
 									
 									$(go.TextBlock,
-                        {row: 2, column: 0, margin: 10}, 
+                        {row: 2, column: 0, margin: new go.Margin(5)}, 
 											new go.Binding("text", "email")),
 									
 									$(go.TextBlock, "Direct: ",
-                        {row: 3, column: 0, margin: 10}),
+                        {row: 3, column: 0, margin: new go.Margin(5)}),
 									
                    $(go.TextBlock,
-                       {row: 3, column: 0, margin: 5},
+                       {row: 3, column: 0, margin: new go.Margin(5)},
                      new go.Binding("text", "business_phone")),
 									
 									$(go.TextBlock, "Mobile: ",
-                        {row: 4, column: 0, margin: 10}),
+                        {row: 4, column: 0, margin: new go.Margin(5)}),
 									$(go.TextBlock,
-                        {row: 4, column: 1, margin: 5}, 
+                        {row: 4, column: 1, margin: new go.Margin(5)}, 
 											new go.Binding("text", "mobilePhone"))
                 )
             )
