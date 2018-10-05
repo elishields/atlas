@@ -17,9 +17,12 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     fill: $(go.Brush, "Linear", {0: "white"}),
                     stroke: "darkblue", strokeWidth: 2
                 }),
+
+            //Panel for entire node
             $(go.Panel, "Table",
                 {defaultAlignment: go.Spot.Left, column: 10},
-
+                
+                //Panel for picture
                 $(go.Panel, "Table",
                 {defaultAlignment: go.Spot.Left, column: 0, row: 0},
 							
@@ -28,10 +31,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             row: 0, column: 0, rowSpan: 3,
                             margin: new go.Margin(5), width: 50, height: 50, background: "red"
                         },
-                        new go.Binding("source"))
-                        
+                        new go.Binding("source"))      
                 ),
 
+                //Panel for Pre-expanded information
                 $(go.Panel, "Table",
                 {defaultAlignment: go.Spot.Left, column: 1, row: 0},
                                 
@@ -44,38 +47,42 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         new go.Binding("text", "title")),
 
                     $("PanelExpanderButton", "addInfo",
-                        { column: 2, row: 0})
-                        
+                        { column: 2, row: 0}) 
                 ),
 								
-							//HIDDEN INFO
+				//Panel for hidden info
                 $(go.Panel, "Table",
                     {name: "addInfo", defaultAlignment: go.Spot.Left, column: 1, row: 1, visible: false},
                 
                     $(go.TextBlock,
-                        {row: 0, column: 0, margin: new go.Margin(5)}, 
+                        {row: 0, column: 0, margin: new go.Margin(10,5,0,5)}, 
 											new go.Binding("text", "department")),
 									
-									$(go.TextBlock,
-                        {row: 1, column: 0, margin: new go.Margin(5)}, 
+					$(go.TextBlock,
+                        {row: 1, column: 0, margin: new go.Margin(0,5,5,5)}, 
 											new go.Binding("text", "location")),
 									
-									$(go.TextBlock,
+					$(go.TextBlock,
                         {row: 2, column: 0, margin: new go.Margin(5)}, 
 											new go.Binding("text", "email")),
 									
-									$(go.TextBlock, "Direct: ",
-                        {row: 3, column: 0, margin: new go.Margin(5)}),
+				//New panel just for phones
+				$(go.Panel, "Table",
+                    {defaultAlignment: go.Spot.Left, column: 0, row: 3},
+									
+					$(go.TextBlock, "Direct: ",
+                        {row: 0, column: 0, margin: new go.Margin(5)}),
 									
                    $(go.TextBlock,
-                       {row: 3, column: 0, margin: new go.Margin(5)},
-                     new go.Binding("text", "business_phone")),
+                       {row: 0, column: 1, margin: new go.Margin(5)},
+                            new go.Binding("text", "business_phone")),
 									
-									$(go.TextBlock, "Mobile: ",
-                        {row: 4, column: 0, margin: new go.Margin(5)}),
-									$(go.TextBlock,
-                        {row: 4, column: 1, margin: new go.Margin(5)}, 
-											new go.Binding("text", "mobilePhone"))
+					$(go.TextBlock, "Mobile: ",
+                        {row: 1, column: 0, margin: new go.Margin(5)}),
+                    
+                    $(go.TextBlock,
+                        {row: 1, column: 1, margin: new go.Margin(5)}, 
+								new go.Binding("text", "mobilePhone")))
                 )
             )
         );
