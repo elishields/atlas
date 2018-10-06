@@ -27,7 +27,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             //Panel for entire node
             $(go.Panel, "Table",
 
-                {defaultAlignment: go.Spot.Left, column: 10},
+                {defaultAlignment: go.Spot.Left, column: 10, minSize: new go.Size(250, 0)},
 
                 //Panel for picture
                 $(go.Panel, "Table",
@@ -60,7 +60,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                     //line separator 
 					$(go.RowColumnDefinition,
-                        { row: 2, separatorStrokeWidth: 2.5, separatorStroke: "black" }),
+                        { row: 2, separatorStrokeWidth: 1, separatorStroke: "black" }),
 
                     $(go.TextBlock,
                         {row: 0, column: 0, margin: new go.Margin(10,5,0,5)},
