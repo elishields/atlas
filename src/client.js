@@ -12,48 +12,95 @@ function ($scope, $location, $http, spUtil, $timeout) {
 // define a simple Node template
     myDiagram.nodeTemplate =
         $(go.Node, "Auto",
+            {
+                click: function(e, obj) {
+                    var isVisible = obj.part.findObject("addInfo").visible;
+                    obj.part.findObject("addInfo").visible = !isVisible;
+                }
+            },
             $(go.Shape,
                 {
                     fill: $(go.Brush, "Linear", {0: "white"}),
                     stroke: "darkblue", strokeWidth: 2
                 }),
+
+            //Panel for entire node
             $(go.Panel, "Table",
-                {defaultAlignment: go.Spot.Left, margin: 4},
-                $(go.Picture,
-                    {
-                        row: 1, column: 0, rowSpan: 3, alignment: go.Spot.Center,
-                        margin: 10, width: 50, height: 50, background: "red"
-                    },
-                    new go.Binding("source")),
-                $(go.TextBlock, "Name: ",
-                    {row: 1, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
-                $(go.TextBlock,
-                    {row: 1, column: 4, margin: 10},
-                    new go.Binding("text", "name")),
 
-                $(go.TextBlock, "Title: ",
-                    {row: 2, column: 2, font: "bold 12pt sans-serif"}),
-                $(go.TextBlock,
-                    {row: 2, column: 4, margin: 10},
-                    new go.Binding("text", "title")),
+                {defaultAlignment: go.Spot.Left, column: 10, minSize: new go.Size(250, 0)},
 
-                $("PanelExpanderButton", "addInfo",
-                    { column: 5 , row: 0}),
+                //Panel for picture
                 $(go.Panel, "Table",
-                    { name: "addInfo", row: 5, column: 1, columnSpan: 4, visible: false},
-                    $(go.TextBlock, "Email: ",
-                        {row: 6, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
-                    $(go.TextBlock,
-                        {row: 6, column: 4, margin: 10},
-                        new go.Binding("text", "email")),
-                    $(go.TextBlock, "Phone: ",
-                        {row: 8, column: 2, margin: 10, font: "bold 12pt sans-serif"}),
-                    $(go.TextBlock,
-                        {row: 8, column: 4, margin: 10},
-                        new go.Binding("text", "business_phone")))
+                {defaultAlignment: go.Spot.Left, column: 0, row: 0},
 
+                    $(go.Picture,
+                        {
+                            row: 0, column: 0, rowSpan: 3,
+                            margin: new go.Margin(5), width: 50, height: 50, background: "red"
+                        },
+                        new go.Binding("source"))
+                ),
+
+                //Panel for Pre-expanded information
+                $(go.Panel, "Table",
+                {defaultAlignment: go.Spot.Left, column: 1, row: 0},
+
+                    $(go.TextBlock,
+                        {row: 1, column: 0, margin: new go.Margin(5), font: "bold 12pt sans-serif"},
+                        new go.Binding("text", "name")),
+
+                    $(go.TextBlock,
+                        {row: 2, column: 0, margin: new go.Margin(5)},
+                        new go.Binding("text", "title")),
+                ),
+
+				//Panel for hidden info
+                $(go.Panel, "Table",
+                    {name: "addInfo", defaultAlignment: go.Spot.Left, column: 1, row: 1, visible: false},
+
+                    //line separator 
+					$(go.RowColumnDefinition,
+                        { row: 2, separatorStrokeWidth: 1, separatorStroke: "black" }),
+
+                    $(go.TextBlock,
+                        {row: 0, column: 0, margin: new go.Margin(10,5,0,5)},
+											new go.Binding("text", "department")),
+
+					$(go.TextBlock,
+                        {row: 1, column: 0, margin: new go.Margin(0,5,10,5)},
+											new go.Binding("text", "location")),
+
+					$(go.TextBlock,
+                        {row: 2, column: 0, margin: new go.Margin(10,5,5,5)},
+											new go.Binding("text", "email")),
+
+				//New panel just for phones
+				$(go.Panel, "Table",
+                    {defaultAlignment: go.Spot.Left, column: 0, row: 3},
+
+					$(go.TextBlock, "Direct: ",
+                        {row: 0, column: 0, margin: new go.Margin(5)}),
+
+                   $(go.TextBlock,
+                       {row: 0, column: 1, margin: new go.Margin(5)},
+                            new go.Binding("text", "business_phone")),
+
+					$(go.TextBlock, "Mobile: ",
+                        {row: 1, column: 0, margin: new go.Margin(5)}),
+
+                    $(go.TextBlock,
+                        {row: 1, column: 1, margin: new go.Margin(5)},
+								new go.Binding("text", "mobilePhone")))
+                )
             )
         );
+
+    // myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
+    //     console.dir(e);
+    //     console.dir(e.subject.part);
+    //
+    //     e.subject.part.data.findObject("addInfo").visible = true;
+    // });
 
     myDiagram.model = $(go.TreeModel);
     myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
