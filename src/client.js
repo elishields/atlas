@@ -95,13 +95,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             )
         );
 
-    // myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
-    //     console.dir(e);
-    //     console.dir(e.subject.part);
-    //
-    //     e.subject.part.data.findObject("addInfo").visible = true;
-    // });
-
+    myDiagram.allowMove = false;
     myDiagram.model = $(go.TreeModel);
     myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
     myDiagram.model.nodeDataArray = $scope.data.nodes;
