@@ -40,6 +40,12 @@
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
 
+        user.photo = null;
+        var photo = gr.getDisplayValue('photo');
+        if (photo.length > 0) {
+            user.photo = photo + '?t=small';
+        }
+
         console.log("returning user: " + user.name);
         return user;
     }
