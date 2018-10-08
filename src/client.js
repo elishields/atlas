@@ -47,7 +47,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             width: 55,
                             height: 55
                         },
-                        new go.Binding("source")
+                        new go.Binding("source", "photo")
                     ),
                     $(go.Shape,
                         {
