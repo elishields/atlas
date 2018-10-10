@@ -23,28 +23,29 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     fill: $(go.Brush, "Linear", {0: "white"}),
                     stroke: "darkblue", strokeWidth: 2
                 }),
-                        
+
             //Panel for entire node
             $(go.Panel, "Table",
 
                 {defaultAlignment: go.Spot.Left, column: 10, minSize: new go.Size(250, 0)},
-                                
-                             //panel for a button
+
+                //panel for a button
                 $(go.Panel, "Vertical",
-                   { row: 0,
-                     column: 0,
-                                         margin: 3 
-                                          //click: function goes here
-                                    },
-                   $("Button",
-                     { margin: 2 },
-                     $(go.TextBlock, "+")),
-                 $(go.TextBlock,
-                    new go.Binding("text", "clickCount")),
-                 ),
-                                    
-                                    //Panel for picture
-               $(go.Panel, "Table",
+                    {
+                        row: 0,
+                        column: 0,
+                        margin: 3
+                        //click: function goes here
+                    },
+                    $("Button",
+                        {margin: 2},
+                        $(go.TextBlock, "+")),
+                    $(go.TextBlock,
+                        new go.Binding("text", "clickCount")),
+                ),
+
+                //Panel for picture
+                $(go.Panel, "Table",
                     {
                         defaultAlignment: go.Spot.Left,
                         column: 1,
@@ -76,20 +77,21 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             margin: new go.Margin(5)
                         },
                         new go.Binding("text", "name")),
-                                    
-                                    //panel for a button
-                                    $(go.Panel, "Vertical",
-                    { row: 2,
-                      column: 1,
-                                          margin: 3 
-                                          //click: function goes her
-                                        },
-                    $("Button",
-                      { margin: 2 },
-                      $(go.TextBlock, "+")),
-                  $(go.TextBlock,
-                    new go.Binding("text", "clickCount")),
-                ),
+
+                    //panel for a button
+                    $(go.Panel, "Vertical",
+                        {
+                            row: 2,
+                            column: 1,
+                            margin: 3
+                            //click: function goes her
+                        },
+                        $("Button",
+                            {margin: 2},
+                            $(go.TextBlock, "+")),
+                        $(go.TextBlock,
+                            new go.Binding("text", "clickCount")),
+                    ),
 
                     $(go.TextBlock,
                         {
