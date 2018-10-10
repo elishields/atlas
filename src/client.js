@@ -15,6 +15,45 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 "undoManager.isEnabled": true
             });
 
+    // this is shown by the mouseHover event handler
+    var nodeHoverAdornment =
+        $(go.Adornment, "Spot",
+            {
+                background: "transparent",
+                // hide the Adornment when the mouse leaves it
+                mouseLeave: function (e, obj) {
+                    var ad = obj.part;
+                    ad.adornedPart.removeAdornment("mouseHover");
+                }
+            },
+            $(go.Placeholder,
+                {
+                    background: "transparent",  // to allow this Placeholder to be "seen" by mouse events
+                    isActionable: true,  // needed because this is in a temporary Layer
+                    click: function (e, obj) {
+                        var node = obj.part.adornedPart;
+                        node.diagram.select(node);
+                    }
+                }),
+            $("Button",
+                {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
+                {
+                    click: function (e, obj) {
+                        alert("Hi!");
+                    }
+                },
+                $(go.TextBlock, "+")),
+            $("Button",
+                {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
+                {
+                    click: function (e, obj) {
+                        alert("Bye");
+                    }
+                },
+                $(go.TextBlock, "+"))
+        );
+
+
 // A Node template for a user card
     myDiagram.nodeTemplate =
         $(go.Node, "Auto",
@@ -22,6 +61,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 click: function (e, obj) {
                     var isVisible = obj.part.findObject("addInfo").visible;
                     obj.part.findObject("addInfo").visible = !isVisible;
+                },
+                mouseHover: function (e, obj) {
+                    var node = obj.part;
+                    nodeHoverAdornment.adornedObject = node;
+                    node.addAdornment("mouseHover", nodeHoverAdornment);
                 }
             },
             $(go.Shape,
@@ -34,21 +78,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
             $(go.Panel, "Table",
 
                 {defaultAlignment: go.Spot.Left, column: 10, minSize: new go.Size(250, 0)},
-
-                //panel for a button
-                $(go.Panel, "Vertical",
-                    {
-                        row: 0,
-                        column: 0,
-                        margin: 3
-                        //click: function goes here
-                    },
-                    $("Button",
-                        {margin: 2},
-                        $(go.TextBlock, "+")),
-                    $(go.TextBlock,
-                        new go.Binding("text", "clickCount")),
-                ),
 
                 //Panel for picture
                 $(go.Panel, "Table",
@@ -84,20 +113,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         },
                         new go.Binding("text", "name")),
 
-                    //panel for a button
-                    $(go.Panel, "Vertical",
-                        {
-                            row: 2,
-                            column: 1,
-                            margin: 3
-                            //click: function goes her
-                        },
-                        $("Button",
-                            {margin: 2},
-                            $(go.TextBlock, "+")),
-                        $(go.TextBlock,
-                            new go.Binding("text", "clickCount")),
-                    ),
 
                     $(go.TextBlock,
                         {
@@ -187,7 +202,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 )
             )
         );
-    
+
     myDiagram.allowDelete = false;
     myDiagram.allowMove = false;
     myDiagram.model = $(go.TreeModel);
