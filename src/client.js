@@ -2,6 +2,12 @@ function ($scope, $location, $http, spUtil, $timeout) {
     var client = this;
     console.log($scope.data);
 
+    $scope.$on("field.change", function (e, params) {
+        client.data.event = "search";
+        client.data.searchedEmployeeId = params.field.value;
+        client.server.update();
+    });
+
     var $ = go.GraphObject.make;
     var myDiagram =
         $(go.Diagram, "org-chart",
