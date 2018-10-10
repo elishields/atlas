@@ -161,7 +161,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 )
             )
         );
-
+    
+    myDiagram.allowDelete = false;
     myDiagram.allowMove = false;
     myDiagram.model = $(go.TreeModel);
     myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
