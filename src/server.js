@@ -3,7 +3,12 @@
 
     if (input) { // server.update called
         console.log('server.update called!');
+        console.log(input);
 
+        if (input.event == "search") {
+            console.log("Searched for employee:");
+            console.log(input.searchedEmployeeId);
+        }
     } else { // Initial load
         // Get the logged in user
         var gr = new GlideRecord('sys_user');
