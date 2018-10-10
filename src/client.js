@@ -35,11 +35,26 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                 {defaultAlignment: go.Spot.Left, column: 10, minSize: new go.Size(250, 0)},
 
+                //panel for a button
+                $(go.Panel, "Vertical",
+                    {
+                        row: 0,
+                        column: 0,
+                        margin: 3
+                        //click: function goes here
+                    },
+                    $("Button",
+                        {margin: 2},
+                        $(go.TextBlock, "+")),
+                    $(go.TextBlock,
+                        new go.Binding("text", "clickCount")),
+                ),
+
                 //Panel for picture
                 $(go.Panel, "Table",
                     {
                         defaultAlignment: go.Spot.Left,
-                        column: 0,
+                        column: 1,
                         row: 0
                     },
 
@@ -55,33 +70,38 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         },
                         new go.Binding("source", "photo")
                     ),
-                    $(go.Shape,
-                        {
-                            strokeWidth: 0,
-                            stroke: null,
-                            geometryString: "f M0 0 L100 0 L100 100 L0 100 z M5,50a45,45 0 1,0 90,0a45,45 0 1,0 -90,0 z",
-                            width: 56,
-                            height: 56,
-                            fill: 'white',
-                            margin: new go.Margin(5)
-                        })
                 ),
 
                 //Panel for Pre-expanded information
                 $(go.Panel, "Table",
-                    {defaultAlignment: go.Spot.Left, column: 1, row: 0},
+                    {defaultAlignment: go.Spot.Left, column: 2, row: 0},
 
                     $(go.TextBlock,
                         {
-                            row: 1,
+                            row: 2,
                             column: 0,
                             margin: new go.Margin(5)
                         },
                         new go.Binding("text", "name")),
 
-                    $(go.TextBlock,
+                    //panel for a button
+                    $(go.Panel, "Vertical",
                         {
                             row: 2,
+                            column: 1,
+                            margin: 3
+                            //click: function goes her
+                        },
+                        $("Button",
+                            {margin: 2},
+                            $(go.TextBlock, "+")),
+                        $(go.TextBlock,
+                            new go.Binding("text", "clickCount")),
+                    ),
+
+                    $(go.TextBlock,
+                        {
+                            row: 3,
                             column: 0,
                             margin: new go.Margin(5),
                             wrap: go.TextBlock.WrapDesiredSize
