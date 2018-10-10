@@ -41,9 +41,15 @@
         user.parent = gr.getValue('manager');
 
         user.photo = null;
-        var photo = gr.getDisplayValue('photo');
-        if (photo.length > 0) {
-            user.photo = photo + '?t=small';
+        var grProfile = new GlideRecord('live_profile');
+        grProfile.addQuery('document', user.key);
+        grProfile.query();
+
+        while (grProfile.next()) {
+            var photo = grProfile.getDisplayValue('photo');
+            if (photo.length > 0) {
+                user.photo = photo + '?t=small';
+            }
         }
 
         console.log("returning user: " + user.name);
