@@ -35,19 +35,25 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         node.diagram.select(node);
                     }
                 }),
-            $("Button",
+            $("Button", // Expand to parent button
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
-                        alert("Hi!");
+                        client.data.event = "expand";
+                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserDirection = "parent";
+                        client.server.update();
                     }
                 },
                 $(go.TextBlock, "+")),
-            $("Button",
+            $("Button", // Expand to child button
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
-                        alert("Bye");
+                        client.data.event = "expand";
+                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserDirection = "child";
+                        client.server.update();
                     }
                 },
                 $(go.TextBlock, "+"))
