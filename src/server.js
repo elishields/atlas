@@ -1,15 +1,25 @@
 (function () {
     data.nodes = [];
 
+    /**
+     * Runs when input is defined, meaning that server.update() has
+     * been called from the client script.
+     */
     if (input) { // server.update called
         console.log('server.update called!');
         console.log(input);
 
+
+         // An employee has been searched for.
         if (input.event == "search") {
             console.log("Searched for employee:");
             console.log(input.searchedEmployeeId);
+
+            var gr = new GlideRecord('sys_user');
+            gr.get(input.searchedEmployeeId);
+            data.nodes.push(getUser(gr));
         }
-    } else { // Initial load
+    } else { /** Initial load. */
         // Get the logged in user
         var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
