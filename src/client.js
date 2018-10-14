@@ -2,18 +2,30 @@ function ($scope, $location, $http, spUtil, $timeout) {
     var client = this;
     console.log($scope.data);
 
-    $scope.$on("field.change", function (e, params) {
-        client.data.event = "search";
-        client.data.searchedEmployeeId = params.field.value;
-        client.server.update();
-    });
-
     var $ = go.GraphObject.make;
     var myDiagram =
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true
             });
+
+    /**
+     * Listen for a change to the search field value.
+     * When an employee is searched for, pass their ID
+     * to the server script and pull their data. Then
+     * append the data to diagram model to display it
+     * on the org chart.
+     */
+    $scope.$on("field.change", function (e, params) {
+        client.data.event = "search";
+        client.data.searchedEmployeeId = params.field.value;
+        client.server.update().then(function(resp) {
+            $scope.data.nodes.forEach(function(node) {
+                console.log(node);
+                myDiagram.model.addNodeData(node);
+            });
+        });
+    });
 
     // this is shown by the mouseHover event handler
     var nodeHoverAdornment =
