@@ -49,7 +49,7 @@
         user.name = gr.getDisplayValue('name');
         user.title = gr.getDisplayValue('title');
         user.department = gr.getDisplayValue('department');
-        user.email = gr.getDisplayValue('email');
+        user.email = gr.getDisplayValue('email').toLowercase();
         user.businessPhone = gr.getDisplayValue('business_phone');
         user.mobilePhone = gr.getDisplayValue('mobile_phone');
         user.location = gr.getDisplayValue('location');
