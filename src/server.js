@@ -92,6 +92,14 @@
         user.mobilePhone = gr.getDisplayValue('mobile_phone');
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
+
+        user.hasReports = false;
+        if (getReports(user.key).length > 0) {
+            console.log("getting reports for " + user.name + " " + getReports(user.key) + " length is " + getReports(user.key).length);
+            user.hasReports = true;
+        }
+        console.log(user.name + " has reports " + user.hasReports);
+
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {
             user.photo = null;
@@ -106,6 +114,7 @@
      * into the nodes array.
      *
      * @param {String} manager - the sys_id of the employee to get reports for
+     * @return {Array} the user objects that report to param manager
      */
     function getReports(manager) {
         var gr = new GlideRecord('sys_user');
