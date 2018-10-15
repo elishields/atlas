@@ -78,6 +78,7 @@
         user.parent = gr.getValue('manager');
 
         user.hasReports = false;
+        console.log("getting reports for " + user.name + " " + getReports(user.key) + " length is " + getReports(user.key).length);
         if (getReports(user.key).length > 0) {
             console.log("getting reports for " + user.name + " " + getReports(user.key) + " length is " + getReports(user.key).length);
             user.hasReports = true;
@@ -120,4 +121,3 @@
     }
 
 })();
-
