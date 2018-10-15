@@ -92,11 +92,7 @@
         user.mobilePhone = gr.getDisplayValue('mobile_phone');
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
-
-        user.hasReports = false;
-        if (getReports(user.key).length > 0) {
-            user.hasReports = true;
-        }
+        user.hasReports = getReports(user.key).length > 0;
 
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {
