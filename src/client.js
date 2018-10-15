@@ -56,7 +56,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserDirection = "parent";
                         client.server.update().then(function(resp) {
                             $scope.data.nodes.forEach(function(node) {
-                                console.log(node);
                                 myDiagram.model.addNodeData(node);
                             });
                         });
@@ -72,7 +71,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserDirection = "child";
                         client.server.update().then(function(resp) {
                             $scope.data.nodes.forEach(function(node) {
-                                console.log(node);
                                 myDiagram.model.addNodeData(node);
                             });
                         });
@@ -272,5 +270,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
     myDiagram.allowMove = false;
     myDiagram.model = $(go.TreeModel);
     myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
-    myDiagram.model.nodeDataArray = $scope.data.nodes;
+
+    // Add all of the fetched employees to the diagram
+    $scope.data.nodes.forEach(function(node) {
+        myDiagram.model.addNodeData(node);
+    });
+
+    myDiagram.model.nodeKeyProperty = "key";
 }

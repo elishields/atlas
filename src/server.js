@@ -9,7 +9,7 @@
         console.log('server.update called!');
         console.log(input);
 
-         // An employee has been searched for.
+        // An employee has been searched for.
         if (input.event === "search") {
             console.log("Searched for employee:");
             console.log(input.searchedEmployeeId);
@@ -29,14 +29,12 @@
                 gr.get(manager);
                 data.nodes.push(getUser(gr));
             } else if (input.expandedUserDirection === "child") {
-                var gr = new GlideRecord('sys_user');
-                gr.get(expandedUserId);
-                getReports(gr);
+                getReports(input.expandedUserId);
             }
         }
     } else { /** Initial load. */
         // Get the logged in user
-        var gr = new GlideRecord('sys_user');
+    var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
         data.nodes.push(getUser(gr));
 
