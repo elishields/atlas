@@ -2,36 +2,43 @@
     data.nodes = [];
 
     /**
-     * Runs when input is defined, meaning that server.update() has
-     * been called from the client script.
+     * If "input" is defined the client script has invoked a server update.
+     * Otherwise, the widget has loaded for the first time and we load
+     * in the initial employees to display.
+     *
+     * @param input {Object} - input data passed from the client
+     * @param input.event (String) - the type of event that invoked server.update()
+     * @param input.searchedEmployeeId {String} - the ID of the employee entered in the search field
+     * @param input.expandedUserId {String} - the ID of the employee that had an expansion button clicked on their node
+     * @param input.expandedUserDirection (String) - the direction to expand the graph ("parent" or "child")
      */
     if (input) { // server.update called
         console.log('server.update called!');
         console.log(input);
 
-         // An employee has been searched for.
+        // An employee has been searched for.
         if (input.event === "search") {
-            console.log("Searched for employee:");
-            console.log(input.searchedEmployeeId);
-
             var gr = new GlideRecord('sys_user');
             gr.get(input.searchedEmployeeId);
-            data.nodes.push(getUser(gr));
-        } else if (input.event === "expand") {
-            console.log("Searched for employee:");
-            console.log(input.expandedUserId);
 
+            data.nodes.push(getUser(gr));
+        } else if (input.event === "expand") { // An expand button was clicked
             if (input.expandedUserDirection === "parent") {
-                var gr = new GlideRecord('sys_user');
+                // Expand up a level
+                // Fetch the employee's manager and team
                 var user = input.expandedUserId;
+                var gr = new GlideRecord('sys_user');
                 gr.get(user);
+
                 var manager = gr.getValue('manager');
                 gr.get(manager);
+
+                getReports(manager);
                 data.nodes.push(getUser(gr));
             } else if (input.expandedUserDirection === "child") {
-                var gr = new GlideRecord('sys_user');
-                gr.get(expandedUserId);
-                getReports(gr);
+                // Expand down a level
+                // Fetch the employee's direct reports
+                getReports(input.expandedUserId);
             }
         }
     } else { /** Initial load. */
