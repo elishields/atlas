@@ -3,7 +3,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
     console.log($scope.data);
 
     var $ = go.GraphObject.make;
-    var myDiagram =
+    var orgChartDiagram =
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true
@@ -23,9 +23,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
             $scope.data.nodes.forEach(function(node) {
                 console.log(node);
 
-                var nodeExists = myDiagram.findNodeForKey(node.key);
+                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
                 if (!nodeExists)
-                    myDiagram.model.addNodeData(node);
+                    orgChartDiagram.model.addNodeData(node);
             });
         });
     });
@@ -62,9 +62,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             $scope.data.nodes.forEach(function(node) {
                                 console.log(node);
 
-                                var nodeExists = myDiagram.findNodeForKey(node.key);
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
                                 if (!nodeExists)
-                                    myDiagram.model.addNodeData(node);
+                                    orgChartDiagram.model.addNodeData(node);
                             });
                         });
                     }
@@ -82,9 +82,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             $scope.data.nodes.forEach(function(node) {
                                 console.log(node);
 
-                                var nodeExists = myDiagram.findNodeForKey(node.key);
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
                                 if (!nodeExists)
-                                    myDiagram.model.addNodeData(node);
+                                    orgChartDiagram.model.addNodeData(node);
                             });
                         });
                     }
@@ -94,7 +94,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
 
 // A Node template for a user card
-    myDiagram.nodeTemplate =
+    orgChartDiagram.nodeTemplate =
         $(go.Node, "Auto",
             {
                 click: function (e, obj) {
@@ -279,14 +279,14 @@ function ($scope, $location, $http, spUtil, $timeout) {
             )
         );
 
-    myDiagram.allowDelete = false;
-    myDiagram.allowMove = false;
-    myDiagram.model = $(go.TreeModel);
-    myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
+    orgChartDiagram.allowDelete = false;
+    orgChartDiagram.allowMove = false;
+    orgChartDiagram.model = $(go.TreeModel);
+    orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
     $scope.data.nodes.forEach(function(node) {
-        myDiagram.model.addNodeData(node);
+        orgChartDiagram.model.addNodeData(node);
     });
 
-    myDiagram.model.nodeKeyProperty = "key";
+    orgChartDiagram.model.nodeKeyProperty = "key";
 }
