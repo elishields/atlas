@@ -206,8 +206,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                                 margin: new go.Margin(5),
                                 width: 15,
                                 height: 10
-                            },
-                            new go.Binding("source", "photo")
+                            }
                         ),
 
                         $(go.TextBlock,
@@ -226,8 +225,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                                 margin: new go.Margin(5),
                                 width: 15,
                                 height: 13
-                            },
-                            new go.Binding("source", "photo")
+                            }
                         ),
 
                         $(go.TextBlock,
@@ -246,8 +244,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                                 margin: new go.Margin(5),
                                 width: 8,
                                 height: 15
-                            },
-                            new go.Binding("source", "photo")
+                            }
                         ),
 
                         $(go.TextBlock,
