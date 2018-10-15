@@ -20,42 +20,58 @@
         if (input.event === "search") {
             var gr = new GlideRecord('sys_user');
             gr.get(input.searchedEmployeeId);
-
             data.nodes.push(getUser(gr));
+
         } else if (input.event === "expand") { // An expand button was clicked
+
+            // Fetch the employee's manager and team
             if (input.expandedUserDirection === "parent") {
-                // Expand up a level
-                // Fetch the employee's manager and team
-                var user = input.expandedUserId;
                 var gr = new GlideRecord('sys_user');
+
+                // get user
+                var user = input.expandedUserId;
                 gr.get(user);
 
+                // get user's manager
                 var manager = gr.getValue('manager');
                 gr.get(manager);
-
-                getReports(manager);
                 data.nodes.push(getUser(gr));
+
+                // get manager's reports
+                var reports = getReports(manager);
+                reports.forEach(function(report) {
+                    data.nodes.push(report);
+                });
+
             } else if (input.expandedUserDirection === "child") {
-                // Expand down a level
                 // Fetch the employee's direct reports
-                getReports(input.expandedUserId);
+                var reports = getReports(input.expandedUserId);
+                reports.forEach(function(report) {
+                    data.nodes.push(report);
+                });
             }
         }
     } else { /** Initial load. */
         // Get the logged in user
-    var gr = new GlideRecord('sys_user');
+        var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
         data.nodes.push(getUser(gr));
 
         // Get the user's reports
-        getReports(gr.getValue('sys_id'));
+        var reports = getReports(gr.getValue('sys_id'));
+        reports.forEach(function(report) {
+            data.nodes.push(report);
+        });
 
         // Get the user's manager
         gr.get(gr.getValue('manager'));
         data.nodes.push(getUser(gr));
 
         // Get the user's manager's reports
-        getReports(gr.getValue('sys_id'));
+        var reports = getReports(gr.getValue('sys_id'));
+        reports.forEach(function(report) {
+            data.nodes.push(report);
+        });
     }
 
     /**
@@ -92,22 +108,18 @@
      * @param {String} manager - the sys_id of the employee to get reports for
      */
     function getReports(manager) {
-        console.log(manager);
-
         var gr = new GlideRecord('sys_user');
-
         gr.addActiveQuery();
-        // SELECT ... WHERE 'manager' == manager
         gr.addQuery('manager', manager);
         gr.query();
-
+        var reports = [];
         while (gr.next()) {
             var report = getUser(gr);
-
-            if (report.key == gs.getUserID()) continue;
-
-            data.nodes.push(report);
+            reports.push(report);
+            // data.nodes.push(report);
         }
+        console.log("returning reports " + reports);
+        return reports;
     }
 
 })();
