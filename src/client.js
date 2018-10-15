@@ -6,7 +6,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
     var orgChartDiagram =
         $(go.Diagram, "org-chart",
             {
-                "undoManager.isEnabled": true
+                "undoManager.isEnabled": true,
+                hoverDelay: 0
             });
 
     /**
@@ -44,7 +45,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             $(go.Placeholder,
                 {
                     background: "transparent",  // to allow this Placeholder to be "seen" by mouse events
-                    isActionable: true,  // needed because this is in a temporary Layer
+                    isActionable: false,  // needed because this is in a temporary Layer
                     click: function (e, obj) {
                         var node = obj.part.adornedPart;
                         node.diagram.select(node);
@@ -183,9 +184,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         visible: false
                     },
 
-                    //line separator
-                    $(go.RowColumnDefinition,
-                        {row: 2, separatorStrokeWidth: 1, separatorStroke: "black"}),
 
                     $(go.TextBlock,
                         {
@@ -202,13 +200,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             margin: new go.Margin(5, 5, 10, 5)
                         },
                         new go.Binding("text", "location")),
-                    $(go.TextBlock,
-                        {
-                            row: 2,
-                            column: 0,
-                            margin: new go.Margin(10, 5, 5, 5)
-                        },
-                        new go.Binding("text", "email")),
 
 
                     //New panel just for phones
@@ -219,12 +210,16 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             row: 3
                         },
 
+                        //line separator
+                        $(go.RowColumnDefinition,
+                            {row: 1, separatorStrokeWidth: 1, separatorStroke: "black"}),
+
                         $(go.Picture,
                             {
                                 source: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABJCAYAAADL0IO8AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjk2QTQxOTJDQzdBRDExRThBQ0MyOTk4RUM1MTAzOTY5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjk2QTQxOTJEQzdBRDExRThBQ0MyOTk4RUM1MTAzOTY5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OTZBNDE5MkFDN0FEMTFFOEFDQzI5OThFQzUxMDM5NjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OTZBNDE5MkJDN0FEMTFFOEFDQzI5OThFQzUxMDM5NjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz50CLIMAAAJSklEQVR42uxdC5RN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",
-                                row: 0,
+                                row: 1,
                                 column: 0,
-                                margin: new go.Margin(5),
+                                margin: new go.Margin(12, 5, 5, 5),
                                 width: 15,
                                 height: 10
                             }
@@ -232,16 +227,16 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                         $(go.TextBlock,
                             {
-                                row: 0,
+                                row: 1,
                                 column: 1,
-                                margin: new go.Margin(5)
+                                margin: new go.Margin(12, 5, 5, 5)
                             },
                             new go.Binding("text", "email")),
 
                         $(go.Picture,
                             {
                                 source: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjE2NURDQjE5QzdCMDExRThBQ0MyOTk4RUM1MTAzOTY5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjE2NURDQjFBQzdCMDExRThBQ0MyOTk4RUM1MTAzOTY5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OTZBNDE5MkVDN0FEMTFFOEFDQzI5OThFQzUxMDM5NjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MTY1RENCMThDN0IwMTFFOEFDQzI5OThFQzUxMDM5NjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6+Kl/YAAAIHElEQVR42uydDZBO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",
-                                row: 1,
+                                row: 2,
                                 column: 0,
                                 margin: new go.Margin(5),
                                 width: 15,
@@ -251,7 +246,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                         $(go.TextBlock,
                             {
-                                row: 1,
+                                row: 2,
                                 column: 1,
                                 margin: new go.Margin(5)
                             },
@@ -260,7 +255,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         $(go.Picture,
                             {
                                 source: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAACuCAYAAADAkaiGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjE2NURDQjFEQzdCMDExRThBQ0MyOTk4RUM1MTAzOTY5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjE2NURDQjFFQzdCMDExRThBQ0MyOTk4RUM1MTAzOTY5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MTY1RENCMUJDN0IwMTFFOEFDQzI5OThFQzUxMDM5NjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MTY1RENCMUNDN0IwMTFFOEFDQzI5OThFQzUxMDM5NjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4ADtQRAAAGFElEQVR42uydW2gc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",
-                                row: 2,
+                                row: 3,
                                 column: 0,
                                 margin: new go.Margin(5),
                                 width: 8,
@@ -270,7 +265,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                         $(go.TextBlock,
                             {
-                                row: 2,
+                                row: 3,
                                 column: 1,
                                 margin: new go.Margin(5)
                             },
