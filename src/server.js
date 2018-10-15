@@ -94,12 +94,9 @@
         user.parent = gr.getValue('manager');
 
         user.hasReports = false;
-        console.log("getting reports for " + user.name + " " + getReports(user.key) + " length is " + getReports(user.key).length);
         if (getReports(user.key).length > 0) {
-            console.log("getting reports for " + user.name + " " + getReports(user.key) + " length is " + getReports(user.key).length);
             user.hasReports = true;
         }
-        console.log(user.name + " has reports " + user.hasReports);
 
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {
@@ -126,7 +123,6 @@
         while (gr.next()) {
             var report = getUser(gr);
             reports.push(report);
-            // data.nodes.push(report);
         }
         console.log("returning reports " + reports);
         return reports;
