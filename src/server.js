@@ -36,7 +36,7 @@
         }
     } else { /** Initial load. */
         // Get the logged in user
-        var gr = new GlideRecord('sys_user');
+    var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
         data.nodes.push(getUser(gr));
 
@@ -69,17 +69,9 @@
         user.mobilePhone = gr.getDisplayValue('mobile_phone');
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
-
-        user.photo = null;
-        var grProfile = new GlideRecord('live_profile');
-        grProfile.addQuery('document', user.key);
-        grProfile.query();
-
-        while (grProfile.next()) {
-            var photo = grProfile.getDisplayValue('photo');
-            if (photo.length > 0) {
-                user.photo = photo + '?t=small';
-            }
+        user.photo = gr.getDisplayValue('photo');
+        if (user.photo.length < 1) {
+            user.photo = null;
         }
 
         console.log("returning user: " + user.name);
@@ -112,3 +104,4 @@
     }
 
 })();
+
