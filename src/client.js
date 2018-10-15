@@ -7,7 +7,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true,
-                hoverDelay: 0
+                hoverDelay: 0,
+                "dragSelectingTool.isEnabled": false
+
             });
 
     /**
@@ -20,8 +22,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
     $scope.$on("field.change", function (e, params) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
-        client.server.update().then(function(resp) {
-            $scope.data.nodes.forEach(function(node) {
+        client.server.update().then(function (resp) {
+            $scope.data.nodes.forEach(function (node) {
                 console.log(node);
 
                 var nodeExists = orgChartDiagram.findNodeForKey(node.key);
@@ -58,9 +60,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
-                        client.server.update().then(function(resp) {
+                        client.server.update().then(function (resp) {
                             console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function(node) {
+                            $scope.data.nodes.forEach(function (node) {
                                 console.log(node);
 
                                 var nodeExists = orgChartDiagram.findNodeForKey(node.key);
@@ -78,9 +80,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
-                        client.server.update().then(function(resp) {
+                        client.server.update().then(function (resp) {
                             console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function(node) {
+                            $scope.data.nodes.forEach(function (node) {
                                 console.log(node);
 
                                 var nodeExists = orgChartDiagram.findNodeForKey(node.key);
@@ -279,7 +281,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
     orgChartDiagram.model = $(go.TreeModel);
     orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
-    $scope.data.nodes.forEach(function(node) {
+    $scope.data.nodes.forEach(function (node) {
         orgChartDiagram.model.addNodeData(node);
     });
 
