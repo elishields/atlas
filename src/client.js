@@ -22,7 +22,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
         client.server.update().then(function(resp) {
             $scope.data.nodes.forEach(function(node) {
                 console.log(node);
-                myDiagram.model.addNodeData(node);
+
+                var nodeExists = myDiagram.findNodeForKey(node.key);
+                if (!nodeExists)
+                    myDiagram.model.addNodeData(node);
             });
         });
     });
@@ -55,8 +58,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
                         client.server.update().then(function(resp) {
+                            console.log($scope.data.nodes);
                             $scope.data.nodes.forEach(function(node) {
-                                myDiagram.model.addNodeData(node);
+                                console.log(node);
+
+                                var nodeExists = myDiagram.findNodeForKey(node.key);
+                                if (!nodeExists)
+                                    myDiagram.model.addNodeData(node);
                             });
                         });
                     }
@@ -70,8 +78,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
                         client.server.update().then(function(resp) {
+                            console.log($scope.data.nodes);
                             $scope.data.nodes.forEach(function(node) {
-                                myDiagram.model.addNodeData(node);
+                                console.log(node);
+
+                                var nodeExists = myDiagram.findNodeForKey(node.key);
+                                if (!nodeExists)
+                                    myDiagram.model.addNodeData(node);
                             });
                         });
                     }
@@ -271,7 +284,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
     myDiagram.model = $(go.TreeModel);
     myDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
-    // Add all of the fetched employees to the diagram
     $scope.data.nodes.forEach(function(node) {
         myDiagram.model.addNodeData(node);
     });
