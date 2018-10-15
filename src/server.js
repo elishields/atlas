@@ -101,11 +101,9 @@
         gr.addQuery('manager', manager);
         gr.query();
 
+        var reports = [];
         while (gr.next()) {
             var report = getUser(gr);
-
-            if (report.key == gs.getUserID()) continue;
-
             data.nodes.push(report);
         }
     }
