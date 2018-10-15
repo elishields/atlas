@@ -28,6 +28,7 @@
                 var manager = gr.getValue('manager');
                 gr.get(manager);
                 data.nodes.push(getUser(gr));
+                getReports(manager);
             } else if (input.expandedUserDirection === "child") {
                 getReports(input.expandedUserId);
             }
