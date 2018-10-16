@@ -289,4 +289,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
     });
 
     orgChartDiagram.model.nodeKeyProperty = "key";
+
+    $scope.data.nodesToRemove.forEach(function (node) {
+        orgChartDiagram.model.removeNodeData(node);
+    });
+
 }
