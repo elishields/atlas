@@ -52,22 +52,22 @@
             }
         }
     } else { /** Initial load. */
-        // Get the logged in user
+        // Get the logged in user's record
         var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
-        data.nodes.push(getUser(gr));
 
-        // Get the user's reports
+        // Get the user's reports and add them to the node array
         var reports = getReports(gr.getValue('sys_id'));
         reports.forEach(function(report) {
             data.nodes.push(report);
         });
 
-        // Get the user's manager
+        // Get the user's manager and add them to the node array
         gr.get(gr.getValue('manager'));
         data.nodes.push(getUser(gr));
 
-        // Get the user's manager's reports
+        // Get the user's manager's reports and add them to the node array
+        // (This includes the record of the logged in user so it was not fetched beforehand)
         var reports = getReports(gr.getValue('sys_id'));
         reports.forEach(function(report) {
             data.nodes.push(report);
