@@ -1,5 +1,6 @@
 (function () {
     data.nodes = [];
+    data.nodesToRemove = [];
 
     /**
      * If "input" is defined the client script has invoked a server update.
@@ -122,6 +123,31 @@
         }
         console.log("returning reports " + reports);
         return reports;
+    }
+
+    /**
+     * Remove children of target node from org chart.
+     * Uses postorder tree traversal.
+     *
+     * @param {String} top - the sys_id of the employee to collapse reports from
+     */
+
+    function collapseNodes(node) {
+
+        var gr = new GlideRecord('sys_user');
+        gr.get(top);
+        var user = getUser(gr);
+
+        if (user.hasReports) {
+            var reports = getReports(user);
+            reports.forEach(function(report) {
+                collapseNodes(report);
+            });
+        }
+        else {
+            data.nodesToRemove.push(node);
+        }
+
     }
 
 })();
