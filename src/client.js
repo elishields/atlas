@@ -282,7 +282,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
     orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
     $scope.data.nodes.forEach(function (node) {
-        orgChartDiagram.model.addNodeData(node);
+        var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+        if (!nodeExists)
+            orgChartDiagram.model.addNodeData(node);
     });
 
     orgChartDiagram.model.nodeKeyProperty = "key";
