@@ -58,8 +58,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
+                        var node = obj.part;
+                        var data = node.data
+
                         client.data.event = "expand";
-                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserId = data.key;
                         client.data.expandedUserDirection = "parent";
                         client.server.update().then(function (resp) {
                             console.log($scope.data.nodes);
@@ -78,8 +81,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
+                        var node = obj.part;
+                        var data = node.data;
+                        console.log("NODE DATA");
+                        console.log(data);
+
                         client.data.event = "expand";
-                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserId = data.key;
                         client.data.expandedUserDirection = "child";
                         client.server.update().then(function (resp) {
                             console.log($scope.data.nodes);
