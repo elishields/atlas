@@ -59,17 +59,24 @@
         // Get the user's reports and add them to the node array
         var reports = getReports(gr.getValue('sys_id'));
         reports.forEach(function(report) {
+            report.parentExpanded = true;
+            user.parentExpandBtnSymbol = ">";
             data.nodes.push(report);
         });
 
         // Get the user's manager and add them to the node array
         gr.get(gr.getValue('manager'));
-        data.nodes.push(getUser(gr));
+        var manager = getUser(gr);
+        manager.childExpanded = true;
+        user.childExpandBtnSymbol = "<";
+        data.nodes.push(manager);
 
         // Get the user's manager's reports and add them to the node array
         // (This includes the record of the logged in user so it was not fetched beforehand)
         var reports = getReports(gr.getValue('sys_id'));
         reports.forEach(function(report) {
+            report.parentExpanded = true;
+            user.parentExpandBtnSymbol = ">";
             data.nodes.push(report);
         });
     }
@@ -93,6 +100,10 @@
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
         user.hasReports = getReports(user.key).length > 0;
+        user.childExpanded = false;
+        user.parentExpanded = false;
+        user.childExpandBtnSymbol = ">";
+        user.parentExpandBtnSymbol = "<";
 
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {

@@ -58,25 +58,45 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
+
                         var node = obj.part;
-                        var data = node.data
+                        var data = node.data;
+                        console.log("NODE DATA");
+                        console.log(data);
 
-                        client.data.event = "expand";
-                        client.data.expandedUserId = data.key;
-                        client.data.expandedUserDirection = "parent";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
+                        if (data.parentExpanded) { // Collapse action
+                            node.diagram.startTransaction("clickParentBtn");
+                            var old = data.childExpandBtnSymbol;
+                            data.parentExpandBtnSymbol = "<";
+                            node.diagram.model.raiseDataChanged(data, "parentExpandedBtnSymbol", old, data.parentExpandBtnSymbol);
+                            node.diagram.commitTransaction("clickParentBtn");
+                            client.data.event = "collapse";
+                            client.server.update().then(function (resp) {
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
                             });
-                        });
+                        } else { // Expand action
+                            node.diagram.startTransaction("clickParentBtn");
+                            var old = data.parentExpandBtnSymbol;
+                            data.parentExpandBtnSymbol = ">";
+                            node.diagram.model.raiseDataChanged(data, "parentExpandedBtnSymbol", old, data.parentExpandBtnSymbol);
+                            node.diagram.commitTransaction("clickParentBtn");
+                            client.data.event = "expand";
+                            client.data.expandedUserId = data.key;
+                            client.data.expandedUserDirection = "parent";
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists)
+                                        orgChartDiagram.model.addNodeData(node);
+                                });
+                            });
+                        }
                     }
                 },
-                $(go.TextBlock, "+")),
+                $(go.TextBlock, new go.Binding("text", "parentExpandBtnSymbol"))),
             $("Button", // Expand to child button
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
@@ -86,22 +106,39 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         console.log("NODE DATA");
                         console.log(data);
 
-                        client.data.event = "expand";
-                        client.data.expandedUserId = data.key;
-                        client.data.expandedUserDirection = "child";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
+                        if (data.childExpanded) { // Collapse action
+                            node.diagram.startTransaction("clickChildBtn");
+                            var old = data.childExpandBtnSymbol;
+                            data.childExpandBtnSymbol = ">";
+                            node.diagram.model.raiseDataChanged(data, "childExpandedBtnSymbol", old, data.childExpandBtnSymbol);
+                            node.diagram.commitTransaction("clickChildBtn");
+                            client.data.event = "collapse";
+                            client.server.update().then(function (resp) {
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
                             });
-                        });
+                        } else { // Expand action
+                            node.diagram.startTransaction("clickChildBtn");
+                            var old = data.childExpandBtnSymbol;
+                            data.childExpandBtnSymbol = "<";
+                            node.diagram.model.raiseDataChanged(data, "childExpandedBtnSymbol", old, data.childExpandBtnSymbol);
+                            node.diagram.commitTransaction("clickChildBtn");
+                            client.data.event = "expand";
+                            client.data.expandedUserId = data.key;
+                            client.data.expandedUserDirection = "child";
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists)
+                                        orgChartDiagram.model.addNodeData(node);
+                                });
+                            });
+                        }
                     }
                 },
-                $(go.TextBlock, "+"))
+                $(go.TextBlock, new go.Binding("text", "childExpandBtnSymbol")))
         );
 
 
