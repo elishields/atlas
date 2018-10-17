@@ -43,8 +43,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     var ad = obj.part;
                     ad.adornedPart.removeAdornment("mouseHover");
                 },2000);
-                }
-            },
+                }},
             $(go.Placeholder,
                 {
                     background: "transparent",  // to allow this Placeholder to be "seen" by mouse events
@@ -58,6 +57,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
+                        //if parent exists (isTreeLeaf)
                         client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
@@ -74,6 +74,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     }
                 },
                 $(go.TextBlock, "+")),
+
+
+
             $("Button", // Expand to child button
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
@@ -162,6 +165,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         {
                             row: 1,
                             column: 0,
+                            font: "Normal normal bold 16px Raleway",
                             margin: new go.Margin(5)
                         },
                         new go.Binding("text", "name")),
@@ -171,6 +175,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         {
                             row: 3,
                             column: 0,
+                            font: "Italic normal normal 10px Raleway",
                             margin: new go.Margin(5),
                             wrap: go.TextBlock.WrapDesiredSize
                         },
