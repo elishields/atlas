@@ -39,9 +39,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
             {
                 background: "transparent",
                 // hide the Adornment when the mouse leaves it
-                mouseLeave: function (e, obj) {
+                mouseLeave: function (e, obj) {setTimeout(function() {
                     var ad = obj.part;
                     ad.adornedPart.removeAdornment("mouseHover");
+                },2000);
                 }
             },
             $(go.Placeholder,
