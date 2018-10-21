@@ -108,6 +108,44 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         }
                     }
                 },
+                $(go.TextBlock, "+")),
+            $("Button", // Collapse to parent button
+                {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
+                {
+                    click: function (e, obj) {
+                        client.data.event = "collapse";
+                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserDirection = "parent";
+                        client.server.update().then(function (resp) {
+                            console.log($scope.data.nodesToRemove);
+                            $scope.data.nodesToRemove.forEach(function (node) {
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                if (!nodeExists) {
+                                    orgChartDiagram.model.removeNodeData(node);
+                                }
+                            });
+                        });
+                    }
+                },
+                $(go.TextBlock, "+")),
+            $("Button", // Collapse to child button
+                {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
+                {
+                    click: function (e, obj) {
+                        client.data.event = "collapse";
+                        client.data.expandedUserId = obj.part.sh.key;
+                        client.data.expandedUserDirection = "child";
+                        client.server.update().then(function (resp) {
+                            console.log($scope.data.nodesToRemove);
+                            $scope.data.nodesToRemove.forEach(function (node) {
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                if (!nodeExists) {
+                                    orgChartDiagram.model.removeNodeData(node);
+                                }
+                            });
+                        });
+                    }
+                },
                 $(go.TextBlock, "+"))
         );
 
