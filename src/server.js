@@ -51,14 +51,6 @@
                     data.nodes.push(report);
                 });
             }
-        } else if (input.event === "collapse") {
-
-            if (input.expandedUserDirection === "parent") {
-
-
-            } else if (input.expandedUserDirection === "child") {
-
-            }
         }
     } else { /** Initial load. */
         // Get the logged in user's record

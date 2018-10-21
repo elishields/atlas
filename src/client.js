@@ -61,32 +61,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
 
-                        client.data.event = "expand";
-
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
-
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
-                            });
-                        });
-                    }
-                },
-                $(go.TextBlock, "+")),
-            $("Button", // Button to expand or collapse to child
-                {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
-                {
-                    click: function (e, obj) {
-                        client.data.expandedUserId = obj.part.sh.key;
-                        client.data.expandedUserDirection = "child";
-
                         var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
                         var nodeIsExpanded = clickedNode.isTreeExpanded;
-
-                        console.log("checking isTreeExpanded" + nodeIsExpanded);
 
                         if (nodeIsExpanded) {
                             client.data.event = "collapse";
@@ -109,41 +85,34 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     }
                 },
                 $(go.TextBlock, "+")),
-            $("Button", // Collapse to parent button
-                {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
-                {
-                    click: function (e, obj) {
-                        client.data.event = "collapse";
-                        client.data.expandedUserId = obj.part.sh.key;
-                        client.data.expandedUserDirection = "parent";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodesToRemove);
-                            $scope.data.nodesToRemove.forEach(function (node) {
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists) {
-                                    orgChartDiagram.model.removeNodeData(node);
-                                }
-                            });
-                        });
-                    }
-                },
-                $(go.TextBlock, "+")),
-            $("Button", // Collapse to child button
+            $("Button", // Button to expand or collapse to child
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
-                        client.data.event = "collapse";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodesToRemove);
-                            $scope.data.nodesToRemove.forEach(function (node) {
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists) {
-                                    orgChartDiagram.model.removeNodeData(node);
-                                }
+
+                        var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
+                        var nodeIsExpanded = clickedNode.isTreeExpanded;
+
+                        if (nodeIsExpanded) {
+                            client.data.event = "collapse";
+                            orgChartDiagram.isTreePathToChildren = true;
+                            clickedNode.collapseTree(1);
+                        } else {
+                            client.data.event = "expand";
+                            clickedNode.expandTree();
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists)
+                                        orgChartDiagram.model.addNodeData(node);
+                                });
                             });
-                        });
+                        }
                     }
                 },
                 $(go.TextBlock, "+"))
