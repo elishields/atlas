@@ -7,8 +7,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true,
-                hoverDelay: 0,
-                "dragSelectingTool.isEnabled": false
+                hoverDelay: 0
 
             });
 
@@ -42,7 +41,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 mouseLeave: function (e, obj) {setTimeout(function() {
                     var ad = obj.part;
                     ad.adornedPart.removeAdornment("mouseHover");
-                },2000);
+                },2500);
                 }
             },
             $(go.Placeholder,
@@ -278,7 +277,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
         );
 
     orgChartDiagram.allowDelete = false;
-    orgChartDiagram.allowMove = false;
     orgChartDiagram.model = $(go.TreeModel);
     orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
