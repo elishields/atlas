@@ -54,6 +54,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     }
                 }),
             $("Button", // Button to expand or collapse to parent
+                new go.Binding("visible", "hasParent"),
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
@@ -86,6 +87,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 },
                 $(go.TextBlock, "+")),
             $("Button", // Button to expand or collapse to child
+                new go.Binding("visible", "hasReports"),
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
