@@ -95,6 +95,7 @@
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
         user.hasReports = getReports(user.key).length > 0;
+        user.hasParent = !(gr.getValue('manager') == null);
 
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {
