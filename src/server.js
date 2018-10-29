@@ -26,6 +26,7 @@
 
             // Fetch the employee's manager and team
             if (input.expandedUserDirection === "parent") {
+                console.log("FETCHING PARENT.");
                 var gr = new GlideRecord('sys_user');
 
                 // get user
@@ -44,6 +45,7 @@
                 });
 
             } else if (input.expandedUserDirection === "child") {
+                console.log("FETCHING CHILD.");
                 // Fetch the employee's direct reports
                 var reports = getReports(input.expandedUserId);
                 reports.forEach(function(report) {
@@ -99,7 +101,6 @@
             user.photo = null;
         }
 
-        console.log("returning user: " + user.name);
         return user;
     }
 
@@ -120,7 +121,6 @@
             var report = getUser(gr);
             reports.push(report);
         }
-        console.log("returning reports " + reports);
         return reports;
     }
 

@@ -53,43 +53,67 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         node.diagram.select(node);
                     }
                 }),
-            $("Button", // Expand to parent button
+            $("Button", // Button to expand or collapse to parent
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
-                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
+                        var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
+                        orgChartDiagram.isTreePathToChildren = false;
+
+                        if (clickedNode.isTreeExpanded) {
+                            client.data.event = "collapse";
+                            clickedNode.isTreeExpanded = false;
+                        } else {
+                            client.data.event = "expand";
+                            clickedNode.isTreeExpanded = true;
+                            orgChartDiagram.isTreePathToChildren = true;
+                            // get manager and team
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists) {
+                                        orgChartDiagram.model.addNodeData(node);
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 },
                 $(go.TextBlock, "+")),
-            $("Button", // Expand to child button
+            $("Button", // Button to expand or collapse to child
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
-                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
+                        var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
+                        orgChartDiagram.isTreePathToChildren = true;
+
+                        if (clickedNode.isTreeExpanded) {
+                            client.data.event = "collapse";
+                            clickedNode.isTreeExpanded = false;
+                        }
+                        else {
+                            client.data.event = "expand";
+                            clickedNode.isTreeExpanded = true;
+                            // get reports
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists) {
+                                        orgChartDiagram.model.addNodeData(node);
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 },
                 $(go.TextBlock, "+"))
@@ -287,4 +311,5 @@ function ($scope, $location, $http, spUtil, $timeout) {
     });
 
     orgChartDiagram.model.nodeKeyProperty = "key";
+
 }
