@@ -62,23 +62,26 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserDirection = "parent";
 
                         var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
-                        var nodeIsExpanded = clickedNode.isTreeExpanded;
+                        clickedNode.isTreeExpanded = !(clickedNode.isTreeExpanded);
 
-                        if (nodeIsExpanded) {
+                        if (clickedNode.isTreeExpanded) {
+                            orgChartDiagram.isTreePathToChildren = false;
                             client.data.event = "collapse";
                             orgChartDiagram.isTreePathToChildren = true;
-                            clickedNode.collapseTree(1);
+
                         } else {
                             client.data.event = "expand";
-                            clickedNode.expandTree();
+                            clickedNode.isTreeExpanded = !(clickedNode.isTreeExpanded);
+                            // get manager and team
                             client.server.update().then(function (resp) {
                                 console.log($scope.data.nodes);
                                 $scope.data.nodes.forEach(function (node) {
                                     console.log(node);
 
                                     var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                    if (!nodeExists)
+                                    if (!nodeExists) {
                                         orgChartDiagram.model.addNodeData(node);
+                                    }
                                 });
                             });
                         }
@@ -93,23 +96,24 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         client.data.expandedUserDirection = "child";
 
                         var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
-                        var nodeIsExpanded = clickedNode.isTreeExpanded;
+                        clickedNode.isTreeExpanded = !(clickedNode.isTreeExpanded);
 
-                        if (nodeIsExpanded) {
-                            client.data.event = "collapse";
+                        if (clickedNode.isTreeExpanded) {
                             orgChartDiagram.isTreePathToChildren = true;
-                            clickedNode.collapseTree(1);
+                            client.data.event = "collapse";
                         } else {
                             client.data.event = "expand";
-                            clickedNode.expandTree();
+
+                            // get reports
                             client.server.update().then(function (resp) {
                                 console.log($scope.data.nodes);
                                 $scope.data.nodes.forEach(function (node) {
                                     console.log(node);
 
                                     var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                    if (!nodeExists)
+                                    if (!nodeExists) {
                                         orgChartDiagram.model.addNodeData(node);
+                                    }
                                 });
                             });
                         }
