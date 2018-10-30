@@ -127,6 +127,9 @@
             user.photo = null;
         }
 
+        // GoJS requires a value for the parent key
+        if (!user.hasManager) user.parent = -1;
+
         return user;
     }
 

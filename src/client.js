@@ -21,9 +21,14 @@ function ($scope, $location, $http, spUtil, $timeout) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
         client.server.update().then(function (resp) {
-
             orgChartDiagram.startTransaction("Set searched data");
             orgChartDiagram.model.nodeDataArray = $scope.data.nodes;
+            var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
+            console.log(searchedEmployeeNode);
+
+            // Expand and highlight the searched employee's node on the org chart
+            searchedEmployeeNode.findObject("addInfo").visible = true;
+            searchedEmployeeNode.isSelected = true;
             orgChartDiagram.commitTransaction("Set searched data");
         });
     });
