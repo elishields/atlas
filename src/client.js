@@ -14,21 +14,21 @@ function ($scope, $location, $http, spUtil, $timeout) {
     /**
      * Listen for a change to the search field value.
      * When an employee is searched for, pass their ID
-     * to the server script and pull their data. Then
-     * append the data to diagram model to display it
-     * on the org chart.
+     * to the server script and pull their first degree
+     * of data and replace the current org chart with it.
      */
     $scope.$on("field.change", function (e, params) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
         client.server.update().then(function (resp) {
-            $scope.data.nodes.forEach(function (node) {
-                console.log(node);
+            orgChartDiagram.startTransaction("Set searched data");
+            orgChartDiagram.model.nodeDataArray = $scope.data.nodes;
+            var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
 
-                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                if (!nodeExists)
-                    orgChartDiagram.model.addNodeData(node);
-            });
+            // Expand and highlight the searched employee's node on the org chart
+            searchedEmployeeNode.findObject("addInfo").visible = true;
+            searchedEmployeeNode.isSelected = true;
+            orgChartDiagram.commitTransaction("Set searched data");
         });
     });
 
@@ -54,7 +54,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     }
                 }),
             $("Button", // Button to expand or collapse to parent
-                new go.Binding("visible", "hasParent"),
+                new go.Binding("visible", "hasManager"),
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {

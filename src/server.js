@@ -18,9 +18,34 @@
 
         // An employee has been searched for.
         if (input.event === "search") {
+            // Get the searched employee's record
             var gr = new GlideRecord('sys_user');
             gr.get(input.searchedEmployeeId);
-            data.nodes.push(getUser(gr));
+            var searchedEmployee = getUser(gr);
+
+            // Get the user's reports if they exist and add them to the node array
+            if (searchedEmployee.hasReports) {
+                var reports = getReports(gr.getValue('sys_id'));
+                reports.forEach(function(report) {
+                    data.nodes.push(report);
+                });
+            }
+
+            // Get the user's manager if they exist and add them to the node array
+            if (searchedEmployee.hasManager) {
+                gr.get(gr.getValue('manager'));
+                data.nodes.push(getUser(gr));
+
+                // Get the user's manager's reports and add them to the node array
+                // (This includes the record of the logged in user so it was not fetched beforehand)
+                var reports = getReports(gr.getValue('sys_id'));
+                reports.forEach(function(report) {
+                    data.nodes.push(report);
+                });
+            } else {
+                // If the user has no manager (e.g. is the CEO) then add their individual record to the node array
+                data.nodes.push(searchedEmployee);
+            }
 
         } else if (input.event === "expand") { // An expand button was clicked
 
@@ -95,12 +120,15 @@
         user.location = gr.getDisplayValue('location');
         user.parent = gr.getValue('manager');
         user.hasReports = getReports(user.key).length > 0;
-        user.hasParent = !(gr.getValue('manager') == null);
+        user.hasManager = !(gr.getValue('manager') == null);
 
         user.photo = gr.getDisplayValue('photo');
         if (user.photo.length < 1) {
             user.photo = null;
         }
+
+        // GoJS requires a value for the parent key
+        if (!user.hasManager) user.parent = -1;
 
         return user;
     }
