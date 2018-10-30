@@ -24,7 +24,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
             orgChartDiagram.startTransaction("Set searched data");
             orgChartDiagram.model.nodeDataArray = $scope.data.nodes;
             var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
-            console.log(searchedEmployeeNode);
 
             // Expand and highlight the searched employee's node on the org chart
             searchedEmployeeNode.findObject("addInfo").visible = true;
