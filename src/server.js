@@ -26,7 +26,7 @@
             // Get the user's reports if they exist and add them to the node array
             if (searchedEmployee.hasReports) {
                 var reports = getReports(gr.getValue('sys_id'));
-                reports.forEach(function(report) {
+                reports.forEach(function (report) {
                     data.nodes.push(report);
                 });
             }
@@ -39,7 +39,7 @@
                 // Get the user's manager's reports and add them to the node array
                 // (This includes the record of the logged in user so it was not fetched beforehand)
                 var reports = getReports(gr.getValue('sys_id'));
-                reports.forEach(function(report) {
+                reports.forEach(function (report) {
                     data.nodes.push(report);
                 });
             } else {
@@ -65,7 +65,7 @@
 
                 // get manager's reports
                 var reports = getReports(manager);
-                reports.forEach(function(report) {
+                reports.forEach(function (report) {
                     data.nodes.push(report);
                 });
 
@@ -73,32 +73,41 @@
                 console.log("FETCHING CHILD.");
                 // Fetch the employee's direct reports
                 var reports = getReports(input.expandedUserId);
-                reports.forEach(function(report) {
+                reports.forEach(function (report) {
                     data.nodes.push(report);
                 });
             }
         }
-    } else { /** Initial load. */
-        // Get the logged in user's record
+    } else { // Initial load
+
+        // Get the searched employee's record
         var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
+        var searchedEmployee = getUser(gr);
 
-        // Get the user's reports and add them to the node array
-        var reports = getReports(gr.getValue('sys_id'));
-        reports.forEach(function(report) {
-            data.nodes.push(report);
-        });
+        // Get the user's reports if they exist and add them to the node array
+        if (searchedEmployee.hasReports) {
+            var reports = getReports(gr.getValue('sys_id'));
+            reports.forEach(function (report) {
+                data.nodes.push(report);
+            });
+        }
 
-        // Get the user's manager and add them to the node array
-        gr.get(gr.getValue('manager'));
-        data.nodes.push(getUser(gr));
+        // Get the user's manager if they exist and add them to the node array
+        if (searchedEmployee.hasManager) {
+            gr.get(gr.getValue('manager'));
+            data.nodes.push(getUser(gr));
 
-        // Get the user's manager's reports and add them to the node array
-        // (This includes the record of the logged in user so it was not fetched beforehand)
-        var reports = getReports(gr.getValue('sys_id'));
-        reports.forEach(function(report) {
-            data.nodes.push(report);
-        });
+            // Get the user's manager's reports and add them to the node array
+            // (This includes the record of the logged in user so it was not fetched beforehand)
+            var reports = getReports(gr.getValue('sys_id'));
+            reports.forEach(function (report) {
+                data.nodes.push(report);
+            });
+        } else {
+            // If the user has no manager (e.g. is the CEO) then add their individual record to the node array
+            data.nodes.push(searchedEmployee);
+        }
     }
 
     /**
