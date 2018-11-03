@@ -7,29 +7,28 @@ function ($scope, $location, $http, spUtil, $timeout) {
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true,
-                hoverDelay: 0,
-                "dragSelectingTool.isEnabled": false
+                hoverDelay: 0
 
             });
 
     /**
      * Listen for a change to the search field value.
      * When an employee is searched for, pass their ID
-     * to the server script and pull their data. Then
-     * append the data to diagram model to display it
-     * on the org chart.
+     * to the server script and pull their first degree
+     * of data and replace the current org chart with it.
      */
     $scope.$on("field.change", function (e, params) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
         client.server.update().then(function (resp) {
-            $scope.data.nodes.forEach(function (node) {
-                console.log(node);
+            orgChartDiagram.startTransaction("Set searched data");
+            orgChartDiagram.model.nodeDataArray = $scope.data.nodes;
+            var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
 
-                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                if (!nodeExists)
-                    orgChartDiagram.model.addNodeData(node);
-            });
+            // Expand and highlight the searched employee's node on the org chart
+            searchedEmployeeNode.findObject("addInfo").visible = true;
+            searchedEmployeeNode.isSelected = true;
+            orgChartDiagram.commitTransaction("Set searched data");
         });
     });
 
@@ -39,10 +38,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
             {
                 background: "transparent",
                 // hide the Adornment when the mouse leaves it
-                mouseLeave: function (e, obj) {setTimeout(function() {
+                mouseLeave: function (e, obj) {
                     var ad = obj.part;
                     ad.adornedPart.removeAdornment("mouseHover");
-                },2000);
                 }
             },
             $(go.Placeholder,
@@ -54,46 +52,80 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         node.diagram.select(node);
                     }
                 }),
-            $("Button", // Expand to parent button
+            $("Button", // Button to expand or collapse to parent
+                new go.Binding("visible", "hasManager"),
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
-                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
+                        var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
+                        orgChartDiagram.isTreePathToChildren = false;
+
+                        if (clickedNode.isTreeExpanded) {
+                            client.data.event = "collapse";
+                            clickedNode.isTreeExpanded = false;
+                        } else {
+                            client.data.event = "expand";
+                            clickedNode.isTreeExpanded = true;
+                            orgChartDiagram.isTreePathToChildren = true;
+                            // get manager and team
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists) {
+                                        orgChartDiagram.model.addNodeData(node);
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 },
-                $(go.TextBlock, "+")),
-            $("Button", // Expand to child button
+                //creates a buffer shape in the bottom, sets size/color and rotates it 180 degrees
+                $(go.Shape, {figure: "buffer", fill: "darkBlue", angle: 180, desiredSize: new go.Size(17, 17)}),
+                //makes button have no background and border and only has border on hover
+                {"ButtonBorder.fill": null, "ButtonBorder.stroke": null, "_buttonFillOver": null}
+            ),
+            $("Button",// Button to expand or collapse to child
+                new go.Binding("visible", "hasReports"),
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
-                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
-                        client.server.update().then(function (resp) {
-                            console.log($scope.data.nodes);
-                            $scope.data.nodes.forEach(function (node) {
-                                console.log(node);
 
-                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                if (!nodeExists)
-                                    orgChartDiagram.model.addNodeData(node);
+                        var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
+                        orgChartDiagram.isTreePathToChildren = true;
+
+                        if (clickedNode.isTreeExpanded) {
+                            client.data.event = "collapse";
+                            clickedNode.isTreeExpanded = false;
+                        }
+                        else {
+                            client.data.event = "expand";
+                            clickedNode.isTreeExpanded = true;
+                            // get reports
+                            client.server.update().then(function (resp) {
+                                console.log($scope.data.nodes);
+                                $scope.data.nodes.forEach(function (node) {
+                                    console.log(node);
+                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                    if (!nodeExists) {
+                                        orgChartDiagram.model.addNodeData(node);
+                                    }
+                                });
                             });
-                        });
+                        }
                     }
                 },
-                $(go.TextBlock, "+"))
+
+                //creates a buffer shape in the bottom, sets size/color and rotates it 180 degrees
+                $(go.Shape, {figure: "buffer", fill: "darkBlue", desiredSize: new go.Size(17, 17)}),
+                //makes button have no background and border and only has border on hover
+                {"ButtonBorder.fill": null, "ButtonBorder.stroke": null, "_buttonFillOver": null})
         );
 
 
@@ -278,7 +310,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
         );
 
     orgChartDiagram.allowDelete = false;
-    orgChartDiagram.allowMove = false;
     orgChartDiagram.model = $(go.TreeModel);
     orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
@@ -289,4 +320,5 @@ function ($scope, $location, $http, spUtil, $timeout) {
     });
 
     orgChartDiagram.model.nodeKeyProperty = "key";
+
 }
