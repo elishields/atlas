@@ -84,6 +84,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         }
                     }
                 },
+
                 //creates a buffer shape in the bottom, sets size/color and rotates it 180 degrees
                 $(go.Shape, {figure: "buffer", fill: "darkBlue", angle: 180, desiredSize: new go.Size(17, 17)}),
                 //makes button have no background and border and only has border on hover
