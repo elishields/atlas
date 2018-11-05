@@ -142,13 +142,15 @@ function ($scope, $location, $http, spUtil, $timeout) {
                     var node = obj.part;
                     nodeHoverAdornment.adornedObject = node;
                     node.addAdornment("mouseHover", nodeHoverAdornment);
+
                 }
             },
             $(go.Shape,
                 {
                     fill: $(go.Brush, "Linear", {0: "white"}),
-                    stroke: "darkblue", strokeWidth: 2
+                    stroke: "darkblue", strokeWidth: 0.7, figure: "RoundedRectangle"
                 }),
+
 
             //Panel for entire node
             $(go.Panel, "Table",
@@ -276,11 +278,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
                     //line separator
                     $(go.RowColumnDefinition,
-                        {
-                            row: 2,
-                            separatorStrokeWidth: .7,
-                            separatorStroke: "black"
-                        }),
+                        {row: 2, separatorStrokeWidth: .7, separatorStroke: "darkblue"}),
 
                     $(go.Picture,
                         {
