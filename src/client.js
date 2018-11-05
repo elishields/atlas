@@ -38,10 +38,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
             {
                 background: "transparent",
                 // hide the Adornment when the mouse leaves it
-                mouseLeave: function (e, obj) {setTimeout(function() {
+                mouseLeave: function (e, obj) {
                     var ad = obj.part;
                     ad.adornedPart.removeAdornment("mouseHover");
-                },2500);
                 }
             },
             $(go.Placeholder,
@@ -85,8 +84,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         }
                     }
                 },
-                $(go.TextBlock, "+")),
-            $("Button", // Button to expand or collapse to child
+
+                //creates a buffer shape in the bottom, sets size/color and rotates it 180 degrees
+                $(go.Shape, {figure: "buffer", fill: "darkBlue", angle: 180, desiredSize: new go.Size(17, 17)}),
+                //makes button have no background and border and only has border on hover
+                {"ButtonBorder.fill": null, "ButtonBorder.stroke": null, "_buttonFillOver": null}
+            ),
+            $("Button",// Button to expand or collapse to child
                 new go.Binding("visible", "hasReports"),
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
@@ -118,7 +122,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         }
                     }
                 },
-                $(go.TextBlock, "+"))
+
+                //creates a buffer shape in the bottom, sets size/color and rotates it 180 degrees
+                $(go.Shape, {figure: "buffer", fill: "darkBlue", desiredSize: new go.Size(17, 17)}),
+                //makes button have no background and border and only has border on hover
+                {"ButtonBorder.fill": null, "ButtonBorder.stroke": null, "_buttonFillOver": null})
         );
 
 
