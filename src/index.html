@@ -11,9 +11,9 @@
                 field="client.searchedEmployee"
                 table="'sys_user'"
                 display-field="'name'"
-                display-fields="'email'"
+                display-fields="'title,email'"
                 value-field="'sys_id'"
-                search-fields="'name'"
+                search-fields="'name,title,department'"
                 page-size="100"
         >
         </sn-record-picker>
@@ -21,5 +21,5 @@
 </div>
 <!-- View  -->
 <div id="org-chart"
-     style="width:1500px; height:750px; background-color: #FFFDFD;">
+     style="min-width:150px; min-height:500px; width:100%; height:100%; background-color: #f4f5f7;">
 </div>
