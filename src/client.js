@@ -33,12 +33,22 @@ function ($scope, $location, $http, spUtil, $timeout) {
     $scope.$on("field.change", function (e, params) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
+
         client.server.update().then(function (resp) {
             orgChartDiagram.startTransaction("Set searched data");
-            orgChartDiagram.model.nodeDataArray = $scope.data.nodes;
-            var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
+
+            // Find and remove all existing nodes on the org chart
+            var existingNodes = [];
+            orgChartDiagram.model.nodeDataArray.forEach(function (node) {
+                existingNodes.push(node);
+            });
+            orgChartDiagram.model.removeNodeDataCollection(existingNodes);
+
+            // Add the search results to the org chart
+            orgChartDiagram.model.addNodeDataCollection(resp.nodes);
 
             // Expand and highlight the searched employee's node on the org chart
+            var searchedEmployeeNode = orgChartDiagram.findNodeForKey(params.field.value);
             searchedEmployeeNode.findObject("addInfo").visible = true;
             searchedEmployeeNode.isSelected = true;
             orgChartDiagram.commitTransaction("Set searched data");
@@ -287,8 +297,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         new go.Binding("text", "location")),
 
 
-
-
                     //line separator
                     $(go.RowColumnDefinition,
                         {row: 2, separatorStrokeWidth: .7, separatorStroke: "darkblue"}),
@@ -356,7 +364,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             font: "Normal normal normal 12px Raleway"
                         },
                         new go.Binding("text", "mobilePhone")))
-
             )
         );
 
