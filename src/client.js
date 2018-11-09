@@ -55,6 +55,30 @@ function ($scope, $location, $http, spUtil, $timeout) {
         });
     });
 
+    $scope.resetToMe = function() {
+        client.data.event = "reset";
+        client.data.resetAction = "me";
+
+        client.server.update().then(function (resp) {
+            orgChartDiagram.startTransaction("Set searched data");
+
+            // Find and remove all existing nodes on the org chart
+            var existingNodes = [];
+            orgChartDiagram.model.nodeDataArray.forEach(function (node) {
+                existingNodes.push(node);
+            });
+            orgChartDiagram.model.removeNodeDataCollection(existingNodes);
+
+            // Add the search results to the org chart
+            orgChartDiagram.model.addNodeDataCollection(resp.nodes);
+            orgChartDiagram.commitTransaction("Set searched data");
+        });
+    };
+
+    $scope.resetToCEO = function() {
+
+    };
+
     // this is shown by the mouseHover event handler
     var nodeHoverAdornment =
         $(go.Adornment, "Spot",
