@@ -77,20 +77,24 @@
                     data.nodes.push(report);
                 });
             }
-        } else if (input.event === "reset") {
-            console.log("RESET");
-            var resetEmployeeId;
+        } else if (input.event === 'reset') {
+            var gr = new GlideRecord('sys_user');
 
-            if (input.resetAction === "me") {
-                console.log("ME");
-                resetEmployeeId = gs.getUserID();
-            } else if (input.resetAction === "ceo") {
+            if (input.resetAction === 'me') {
+                gr.get(gs.getUserID());
+            } else if (input.resetAction === 'ceo') {
+                // Search for the (hopefully) 1 employee with this title
+                gr.addQuery('title', "Chief Executive Officer");
+                gr.query();
 
+                if (gr.getRowCount() > 1) {
+                    // There's more than one matching record!
+                    // TODO Some sort of error handling
+                }
+
+                while (gr.next()) {} // Loop to get to the record
             }
 
-            // Get the searched employee's record
-            var gr = new GlideRecord('sys_user');
-            gr.get(resetEmployeeId);
             var searchedEmployee = getUser(gr);
 
             // Get the user's reports if they exist and add them to the node array

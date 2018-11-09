@@ -76,7 +76,23 @@ function ($scope, $location, $http, spUtil, $timeout) {
     };
 
     $scope.resetToCEO = function() {
+        client.data.event = "reset";
+        client.data.resetAction = "ceo";
 
+        client.server.update().then(function (resp) {
+            orgChartDiagram.startTransaction("Set searched data");
+
+            // Find and remove all existing nodes on the org chart
+            var existingNodes = [];
+            orgChartDiagram.model.nodeDataArray.forEach(function (node) {
+                existingNodes.push(node);
+            });
+            orgChartDiagram.model.removeNodeDataCollection(existingNodes);
+
+            // Add the search results to the org chart
+            orgChartDiagram.model.addNodeDataCollection(resp.nodes);
+            orgChartDiagram.commitTransaction("Set searched data");
+        });
     };
 
     // this is shown by the mouseHover event handler
