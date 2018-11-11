@@ -88,38 +88,50 @@
                 gr.query();
 
                 if (gr.getRowCount() > 1) {
-                    // There's more than one matching record!
-                    // TODO Some sort of error handling
+                    gr = null;
+                } else {
+                    while (gr.next()) {} // Loop to get to the record
+                }
+            }
+
+            if (gr !== null) {
+                var searchedEmployee = getUser(gr);
+
+                // Get the user's reports if they exist and add them to the node array
+                if (searchedEmployee.hasReports) {
+                    var reports = getReports(gr.getValue('sys_id'));
+                    reports.forEach(function (report) {
+                        data.nodes.push(report);
+                    });
                 }
 
-                while (gr.next()) {} // Loop to get to the record
-            }
+                // Get the user's manager if they exist and add them to the node array
+                if (searchedEmployee.hasManager) {
+                    gr.get(gr.getValue('manager'));
+                    data.nodes.push(getUser(gr));
 
-            var searchedEmployee = getUser(gr);
-
-            // Get the user's reports if they exist and add them to the node array
-            if (searchedEmployee.hasReports) {
-                var reports = getReports(gr.getValue('sys_id'));
-                reports.forEach(function (report) {
-                    data.nodes.push(report);
-                });
-            }
-
-            // Get the user's manager if they exist and add them to the node array
-            if (searchedEmployee.hasManager) {
-                gr.get(gr.getValue('manager'));
-                data.nodes.push(getUser(gr));
-
-                // Get the user's manager's reports and add them to the node array
-                // (This includes the record of the logged in user so it was not fetched beforehand)
-                var reports = getReports(gr.getValue('sys_id'));
-                reports.forEach(function (report) {
-                    data.nodes.push(report);
-                });
+                    // Get the user's manager's reports and add them to the node array
+                    // (This includes the record of the logged in user so it was not fetched beforehand)
+                    var reports = getReports(gr.getValue('sys_id'));
+                    reports.forEach(function (report) {
+                        data.nodes.push(report);
+                    });
+                } else {
+                    // If the user has no manager (e.g. is the CEO) then add their individual record to the node array
+                    data.nodes.push(searchedEmployee);
+                }
             } else {
-                // If the user has no manager (e.g. is the CEO) then add their individual record to the node array
-                data.nodes.push(searchedEmployee);
+                // If more than one record was found display an error
+                data.nodes.push({
+                    key: -1,
+                    parent: null,
+                    name: "Error",
+                    title: "More than one record returned for topmost employee.",
+                    hasReports: false,
+                    hasManager: false
+                });
             }
+
         }
     } else { // Initial load
 
