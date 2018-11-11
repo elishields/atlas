@@ -20,8 +20,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
         $(go.Diagram, "org-chart",
             {
                 "undoManager.isEnabled": true,
-                hoverDelay: 0
-
+                hoverDelay: 0,
+                padding: 50
             });
 
     /**
