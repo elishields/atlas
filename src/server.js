@@ -77,6 +77,61 @@
                     data.nodes.push(report);
                 });
             }
+        } else if (input.event === 'reset') {
+            var gr = new GlideRecord('sys_user');
+
+            if (input.resetAction === 'me') {
+                gr.get(gs.getUserID());
+            } else if (input.resetAction === 'ceo') {
+                // Search for the (hopefully) 1 employee with this title
+                gr.addQuery('title', "Chief Executive Officer");
+                gr.query();
+
+                if (gr.getRowCount() > 1) {
+                    gr = null;
+                } else {
+                    while (gr.next()) {} // Loop to get to the record
+                }
+            }
+
+            if (gr !== null) {
+                var searchedEmployee = getUser(gr);
+
+                // Get the user's reports if they exist and add them to the node array
+                if (searchedEmployee.hasReports) {
+                    var reports = getReports(gr.getValue('sys_id'));
+                    reports.forEach(function (report) {
+                        data.nodes.push(report);
+                    });
+                }
+
+                // Get the user's manager if they exist and add them to the node array
+                if (searchedEmployee.hasManager) {
+                    gr.get(gr.getValue('manager'));
+                    data.nodes.push(getUser(gr));
+
+                    // Get the user's manager's reports and add them to the node array
+                    // (This includes the record of the logged in user so it was not fetched beforehand)
+                    var reports = getReports(gr.getValue('sys_id'));
+                    reports.forEach(function (report) {
+                        data.nodes.push(report);
+                    });
+                } else {
+                    // If the user has no manager (e.g. is the CEO) then add their individual record to the node array
+                    data.nodes.push(searchedEmployee);
+                }
+            } else {
+                // If more than one record was found display an error
+                data.nodes.push({
+                    key: -1,
+                    parent: null,
+                    name: "Error",
+                    title: "More than one record returned for topmost employee.",
+                    hasReports: false,
+                    hasManager: false
+                });
+            }
+
         }
     } else { // Initial load
 

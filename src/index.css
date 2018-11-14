@@ -4,3 +4,14 @@
     font-weight: normal;
     font-style: normal;
 }
+
+/* button style */
+.background {
+    background-color:#00008b;
+    width:200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Raleway';
+    font-weight: bold;
+    text-align: center;
+}
