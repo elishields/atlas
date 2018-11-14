@@ -1,4 +1,7 @@
 function ($scope, $location, $http, spUtil, $timeout) {
+
+    loader(false);
+
     /**
      * A global object storing all base64 strings
      * that are used for displaying icons in a node template.
@@ -34,6 +37,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
         client.data.event = "search";
         client.data.searchedEmployeeId = params.field.value;
 
+        loader(true);
         client.server.update().then(function (resp) {
             orgChartDiagram.startTransaction("Set searched data");
 
@@ -52,6 +56,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             searchedEmployeeNode.findObject("addInfo").visible = true;
             searchedEmployeeNode.isSelected = true;
             orgChartDiagram.commitTransaction("Set searched data");
+            loader(false);
         });
     });
 
@@ -418,5 +423,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
     });
 
     orgChartDiagram.model.nodeKeyProperty = "key";
+
+    function loader(show) {
+        if (show) {
+            document.getElementById("loader").style.visibility = "visible";
+        } else {
+            document.getElementById("loader").style.visibility = "hidden";
+        }
+    }
 
 }
