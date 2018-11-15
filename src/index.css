@@ -1,5 +1,5 @@
 @font-face {
-    font-family:'Raleway';
+    font-family: 'Raleway';
     src: url('/sys_attachment.do?sys_id=18ca419cdb51230094713220ad961947');
     font-weight: normal;
     font-style: normal;
@@ -7,11 +7,44 @@
 
 /* button style */
 .background {
-    background-color:#00008b;
-    width:200px;
+    background-color: #00008b;
+    width: 200px;
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: 'Raleway';
     font-weight: bold;
     text-align: center;
+}
+
+#loader {
+    animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+    border: 14px solid #000000; /* Light grey */
+    border-top: 14px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: -75px 0 0 -75px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }

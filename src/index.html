@@ -1,40 +1,50 @@
 <!DOCTYPE html>
+
 <html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    <!-- Search -->
-    <div>
-        <sn-record-picker
-                field="client.searchedEmployee"
-                table="'sys_user'"
-                display-field="'name'"
-                display-fields="'title,email'"
-                value-field="'sys_id'"
-                search-fields="'name,title,department'"
-                page-size="100"
-        >
-        </sn-record-picker>
-    </div>
 
-    <!-- Reset to the top button -->
-    <button type="button"
-            class="btn btn-primary background"
-            ng-click="resetToCEO()">
-            Reset to top
-    </button>
+    <head>
+        <title></title>
+    </head>
 
-    <!-- Reset to me button -->
-    <button type="button"
-            class="btn btn-primary background"
-            ng-click="resetToMe()">
-            Reset to me
-    </button>
+    <body>
 
-</div>
-<!-- View  -->
-<div id="org-chart"
-     style="min-width:150px; min-height:500px; width:100%; height:100%; background-color: #f4f5f7;">
-</div>
+        <div>
+            <!-- Search -->
+            <div>
+                <sn-record-picker
+                        field="client.searchedEmployee"
+                        table="'sys_user'"
+                        display-field="'name'"
+                        display-fields="'title,email'"
+                        value-field="'sys_id'"
+                        search-fields="'name,title,department'"
+                        page-size="100" >
+                </sn-record-picker>
+            </div>
+
+            <!-- Reset to the top button -->
+            <button type="button"
+                    class="btn btn-primary background"
+                    ng-click="resetToCEO()">
+                Reset to top
+            </button>
+
+            <!-- Reset to me button -->
+            <button type="button"
+                    class="btn btn-primary background"
+                    ng-click="resetToMe()">
+                Reset to me
+            </button>
+
+        </div>
+
+        <!-- View  -->
+        <div id="org-chart"
+             style="min-width:150px; min-height:500px; width:100%; height:100%; background-color: #f4f5f7;">
+        </div>
+
+        <div id="loader"></div>
+
+    </body>
+
+</html>
