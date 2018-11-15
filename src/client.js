@@ -64,6 +64,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
         client.data.event = "reset";
         client.data.resetAction = "me";
 
+        loader(true);
         client.server.update().then(function (resp) {
             orgChartDiagram.startTransaction("Set searched data");
 
@@ -77,6 +78,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             // Add the search results to the org chart
             orgChartDiagram.model.addNodeDataCollection(resp.nodes);
             orgChartDiagram.commitTransaction("Set searched data");
+            loader(false);
         });
     };
 
@@ -84,6 +86,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
         client.data.event = "reset";
         client.data.resetAction = "ceo";
 
+        loader(true);
         client.server.update().then(function (resp) {
             orgChartDiagram.startTransaction("Set searched data");
 
@@ -97,6 +100,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
             // Add the search results to the org chart
             orgChartDiagram.model.addNodeDataCollection(resp.nodes);
             orgChartDiagram.commitTransaction("Set searched data");
+            loader(false);
         });
     };
 
@@ -177,6 +181,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             client.data.event = "expand";
                             clickedNode.isTreeExpanded = true;
                             // get reports
+                            loader(true);
                             client.server.update().then(function (resp) {
                                 console.log($scope.data.nodes);
                                 $scope.data.nodes.forEach(function (node) {
@@ -187,6 +192,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                                     }
                                 });
                             });
+                            loader(false);
                         }
                     }
                 },
@@ -416,11 +422,13 @@ function ($scope, $location, $http, spUtil, $timeout) {
     orgChartDiagram.model = $(go.TreeModel);
     orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
+    loader(true);
     $scope.data.nodes.forEach(function (node) {
         var nodeExists = orgChartDiagram.findNodeForKey(node.key);
         if (!nodeExists)
             orgChartDiagram.model.addNodeData(node);
     });
+    loader(false);
 
     orgChartDiagram.model.nodeKeyProperty = "key";
 
