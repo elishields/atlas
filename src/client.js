@@ -1,4 +1,4 @@
-function ($scope, $location, $http, spUtil, $timeout) {
+function($scope, $location, $http, spUtil, $timeout) {
 
     loader(false);
 
@@ -60,6 +60,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
         });
     });
 
+    /**
+     * Set current node to current user.
+     */
     $scope.resetToMe = function() {
         client.data.event = "reset";
         client.data.resetAction = "me";
@@ -82,6 +85,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
         });
     };
 
+    /**
+     * Set current node to user at top of tree.
+     */
     $scope.resetToCEO = function() {
         client.data.event = "reset";
         client.data.resetAction = "ceo";
@@ -124,36 +130,29 @@ function ($scope, $location, $http, spUtil, $timeout) {
                         node.diagram.select(node);
                     }
                 }),
-            $("Button", // Button to expand or collapse to parent
+            $("Button", // Button to expand tree towards parent
                 new go.Binding("visible", "hasManager"),
                 {alignment: go.Spot.Left, alignmentFocus: go.Spot.Right},
                 {
                     click: function (e, obj) {
+                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "parent";
-
                         var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
-                        orgChartDiagram.isTreePathToChildren = false;
 
-                        if (clickedNode.isTreeExpanded) {
-                            client.data.event = "collapse";
-                            clickedNode.isTreeExpanded = false;
-                        } else {
-                            client.data.event = "expand";
-                            clickedNode.isTreeExpanded = true;
-                            orgChartDiagram.isTreePathToChildren = true;
-                            // get manager and team
-                            client.server.update().then(function (resp) {
-                                console.log($scope.data.nodes);
-                                $scope.data.nodes.forEach(function (node) {
-                                    console.log(node);
-                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                    if (!nodeExists) {
-                                        orgChartDiagram.model.addNodeData(node);
-                                    }
-                                });
+                        loader(true);
+                        // get manager and team
+                        client.server.update().then(function (resp) {
+                            console.log($scope.data.nodes);
+                            $scope.data.nodes.forEach(function (node) {
+                                console.log(node);
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                if (!nodeExists) {
+                                    orgChartDiagram.model.addNodeData(node);
+                                }
                             });
-                        }
+                            loader(false);
+                        });
                     }
                 },
 
@@ -162,38 +161,29 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 //makes button have no background and border and only has border on hover
                 {"ButtonBorder.fill": null, "ButtonBorder.stroke": null, "_buttonFillOver": null}
             ),
-            $("Button",// Button to expand or collapse to child
+            $("Button", // Button to expand tree towards child
                 new go.Binding("visible", "hasReports"),
                 {alignment: go.Spot.Right, alignmentFocus: go.Spot.Left},
                 {
                     click: function (e, obj) {
+                        client.data.event = "expand";
                         client.data.expandedUserId = obj.part.sh.key;
                         client.data.expandedUserDirection = "child";
-
                         var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
-                        orgChartDiagram.isTreePathToChildren = true;
 
-                        if (clickedNode.isTreeExpanded) {
-                            client.data.event = "collapse";
-                            clickedNode.isTreeExpanded = false;
-                        }
-                        else {
-                            client.data.event = "expand";
-                            clickedNode.isTreeExpanded = true;
-                            // get reports
-                            loader(true);
-                            client.server.update().then(function (resp) {
-                                console.log($scope.data.nodes);
-                                $scope.data.nodes.forEach(function (node) {
-                                    console.log(node);
-                                    var nodeExists = orgChartDiagram.findNodeForKey(node.key);
-                                    if (!nodeExists) {
-                                        orgChartDiagram.model.addNodeData(node);
-                                    }
-                                });
+                        loader(true);
+                        // get reports
+                        client.server.update().then(function (resp) {
+                            console.log($scope.data.nodes);
+                            $scope.data.nodes.forEach(function (node) {
+                                console.log(node);
+                                var nodeExists = orgChartDiagram.findNodeForKey(node.key);
+                                if (!nodeExists) {
+                                    orgChartDiagram.model.addNodeData(node);
+                                }
                             });
                             loader(false);
-                        }
+                        });
                     }
                 },
 
