@@ -414,7 +414,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             new go.Binding("text", "mobilePhone")))
                 )
             );
-
+        
+        orgChartDiagram.allowMove = false;
         orgChartDiagram.allowDelete = false;
         orgChartDiagram.model = $(go.TreeModel);
         orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
