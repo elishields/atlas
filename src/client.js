@@ -426,7 +426,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                 orgChartDiagram.model.addNodeData(node);
         });
 
-        var searchedEmployeeNode = orgChartDiagram.findNodeForKey($scope.userId);
+        var searchedEmployeeNode = orgChartDiagram.findNodeForKey($scope.data.userId);
         searchedEmployeeNode.findObject("addInfo").visible = true;
         searchedEmployeeNode.isSelected = true;
 
