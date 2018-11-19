@@ -3,11 +3,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
     loader(false);
 
     if ($scope.data.nodes.length === 0) {
-        document.getElementById("error-display").style.visibility = "visible";
+        document.getElementById("error-display").style.display = "block";
         var errorMessage = "ERROR: NO DATA RETURNED";
         document.getElementById("error-display").innerText = errorMessage;
     } else {
-        document.getElementById("error-display").style.visibility = "hidden";
+        document.getElementById("error-display").style.display = "none";
 
         /**
          * A global object storing all base64 strings
@@ -437,9 +437,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
     function loader(show) {
         if (show) {
-            document.getElementById("loader").style.visibility = "visible";
+            document.getElementById("loader").style.display = "block";
         } else {
-            document.getElementById("loader").style.visibility = "hidden";
+            document.getElementById("loader").style.display = "none";
         }
     }
 }
