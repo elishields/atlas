@@ -425,6 +425,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
             if (!nodeExists)
                 orgChartDiagram.model.addNodeData(node);
         });
+
+        var searchedEmployeeNode = orgChartDiagram.findNodeForKey($scope.userId);
+        searchedEmployeeNode.findObject("addInfo").visible = true;
+        searchedEmployeeNode.isSelected = true;
+
         loader(false);
 
         orgChartDiagram.model.nodeKeyProperty = "key";

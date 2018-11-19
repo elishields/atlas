@@ -16,7 +16,7 @@
      *                               search: an employee was searched for and their first degree of data will be returned
      *                               expand: an expand button on a node of the chart was clicked and the correct level of
      *                                       data will be returned
- *                                    reset: a reset view button was clicked and the view will be reset to the correct
+     *                                    reset: a reset view button was clicked and the view will be reset to the correct
      *                                       data for the clicked button
      *
      * @param input.searchedEmployeeId {String} - the ID of the employee entered in the search field
@@ -149,6 +149,8 @@
         // Load the logged in employee's first degree of data
         // (their own record, their reports, their manager and team).
     } else {
+        data.userId = gs.getUserID();
+
         // Get the logged in employee's record
         var gr = new GlideRecord('sys_user');
         gr.get(gs.getUserID());
