@@ -48,3 +48,31 @@
         -webkit-transform: rotate(360deg);
     }
 }
+
+#error-display {
+
+    /*border: 14px solid #000000; !* Light grey *!*/
+    /*border-top: 14px solid #3498db; !* Blue *!*/
+    /*border-radius: 50%;*/
+
+    /* Size of box. */
+    width: 200px;
+    height: 80px;
+
+    /* Styling of box. */
+    /*color: #000000;*/
+    color: #D8000C;
+    /*background-color: #3498db;*/
+    background-color: #FFD2D2;
+    text-align: center;
+    line-height: 80px;
+
+
+    /* Centre box in view. */
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 40px);
+
+    /* Prioritize box */
+    z-index: 1000;
+}
