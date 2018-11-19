@@ -4,7 +4,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
 
     if ($scope.data.nodes.length === 0) {
         document.getElementById("error-display").style.visibility = "visible";
-        let errorMessage = "ERROR: NO DATA RETURNED";
+        var errorMessage = "ERROR: NO DATA RETURNED";
         document.getElementById("error-display").innerText = errorMessage;
     } else {
         document.getElementById("error-display").style.visibility = "hidden";
