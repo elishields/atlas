@@ -136,7 +136,7 @@
             } else {
                 data.nodes.push({
                     key: -1,
-                    parent: null,
+                    parent: -1,
                     name: "Error",
                     title: "More than one record returned for topmost employee.",
                     hasReports: false,
