@@ -5,6 +5,17 @@
     font-style: normal;
 }
 
+#org-chart {
+    /* View style. */
+    background-color: #f4f5f7;
+
+    /* View sizing. */
+    min-width: 800px;
+    min-height: 500px;
+    width: 100%;
+    height: 100%;
+}
+
 /* button style */
 .background {
     background-color: #00008b;
