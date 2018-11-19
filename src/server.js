@@ -31,10 +31,7 @@
      *                                      me: reset the view to the logged in user
      *                                     ceo: reset the view to the ceo (top)
      */
-    if (input) { // server.update called
-        console.log('server.update called!');
-        console.log(input);
-
+    if (input) {
         // An employee has been searched for.
         // Get their record, their reports and manager (if they exist)
         // and send the data back to the client via the data.nodes array.
@@ -68,7 +65,6 @@
             // Determine the direction of expansion and load in the correct level of data.
         } else if (input.event === "expand") {
             if (input.expandedUserDirection === "parent") {
-                console.log("FETCHING PARENT.");
                 var gr = new GlideRecord('sys_user');
 
                 var user = input.expandedUserId;
@@ -83,7 +79,6 @@
                     data.nodes.push(report);
                 });
             } else if (input.expandedUserDirection === "child") {
-                console.log("FETCHING CHILD.");
                 var reports = getReports(input.expandedUserId);
                 reports.forEach(function (report) {
                     data.nodes.push(report);
