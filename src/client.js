@@ -23,7 +23,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
         };
 
         var client = this;
-        console.log($scope.data);
 
         var $ = go.GraphObject.make;
         var orgChartDiagram =
@@ -150,9 +149,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             loader(true);
                             // get manager and team
                             client.server.update().then(function (resp) {
-                                console.log($scope.data.nodes);
                                 $scope.data.nodes.forEach(function (node) {
-                                    console.log(node);
                                     var nodeExists = orgChartDiagram.findNodeForKey(node.key);
                                     if (!nodeExists) {
                                         orgChartDiagram.model.addNodeData(node);
@@ -181,9 +178,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             loader(true);
                             // get reports
                             client.server.update().then(function (resp) {
-                                console.log($scope.data.nodes);
                                 $scope.data.nodes.forEach(function (node) {
-                                    console.log(node);
                                     var nodeExists = orgChartDiagram.findNodeForKey(node.key);
                                     if (!nodeExists) {
                                         orgChartDiagram.model.addNodeData(node);
