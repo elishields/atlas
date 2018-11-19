@@ -30,10 +30,9 @@
     border-radius: 50%;
 
     /* Centre spinner in view. */
-    margin: -75px 0 0 -75px;
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
 
     /* Prioritize spinner to front. */
     z-index: 1000;
