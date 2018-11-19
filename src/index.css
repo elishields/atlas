@@ -17,17 +17,24 @@
 }
 
 #loader {
+
+    /* Size of spinner. */
+    width: 80px;
+    height: 80px;
+
+    /* Styling of spinner. */
     animation: spin 2s linear infinite;
     -webkit-animation: spin 2s linear infinite;
     border: 14px solid #000000; /* Light grey */
     border-top: 14px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    margin: -75px 0 0 -75px;
+
+    /* Centre spinner in view. */
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
+
+    /* Prioritize spinner to front. */
     z-index: 1000;
 }
 
@@ -47,4 +54,25 @@
     100% {
         -webkit-transform: rotate(360deg);
     }
+}
+
+#error-display {
+
+    /* Size of box. */
+    width: 200px;
+    height: 80px;
+
+    /* Styling of box. */
+    color: #D8000C;
+    background-color: #FFD2D2;
+    text-align: center;
+    line-height: 80px;
+
+    /* Centre box in view. */
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 40px);
+
+    /* Prioritize box to front. */
+    z-index: 1000;
 }
