@@ -2,69 +2,73 @@
 
 <html>
 
-    <head>
-        <title></title>
-    </head>
+<head>
+    <title></title>
+</head>
 
-    <body>
+<body>
 
-        <div>
-            <!-- Search -->
-            <div>
-                <sn-record-picker
-                        field="client.searchedEmployee"
-                        table="'sys_user'"
-                        display-field="'name'"
-                        display-fields="'title,email'"
-                        value-field="'sys_id'"
-                        search-fields="'name,title,department'"
-                        page-size="100" >
-                </sn-record-picker>
-            </div>
+<div>
+    <!-- Search -->
+    <div>
+        <sn-record-picker
+                field="client.searchedEmployee"
+                table="'sys_user'"
+                display-field="'name'"
+                display-fields="'title,email'"
+                value-field="'sys_id'"
+                search-fields="'name,title,department'"
+                page-size="100">
+        </sn-record-picker>
+    </div>
 
-            <!-- Reset to the top button -->
-            <button type="button"
-                    class="btn btn-primary background"
-                    ng-click="resetToCEO()">
-                Reset to Top
-            </button>
+    <div>
+        <!-- Reset to the top button -->
+        <button type="button"
+                class="btn btn-primary background"
+                ng-click="resetToCEO()">
+            Reset to Top
+        </button>
 
-            <!-- Reset to me button -->
-            <button type="button"
-                    class="btn btn-primary background"
-                    ng-click="resetToMe()">
-                Reset to Me
-            </button>
+        <!-- Reset to me button -->
+        <button type="button"
+                class="btn btn-primary background"
+                ng-click="resetToMe()">
+            Reset to Me
+        </button>
+    </div>
+</div>
 
-            <!-- Reset to me button -->
-            <button type="button"
-                    class="btn btn-primary background"
-                    ng-click="userGuide()">
-                User Guide
-            </button>
+<div>
+    <!-- View  -->
+    <div id="org-chart"></div>
 
-        </div>
+    <!-- Loader spinner -->
+    <div id="loader"></div>
 
-        <!-- View  -->
-        <div id="org-chart"></div>
+    <!-- Error display box -->
+    <div id="error-display"></div>
+</div>
 
-        <!-- Loader spinner -->
-        <div id="loader"></div>
+<!-- Help guide button -->
+<button type="button"
+        class="btn pull-right btn-user-guide"
+        ng-click="userGuide()">
+    <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAAB50lEQVR4AeWWA4xYQRRFz9obpw6r2LXtxqptBrVtu41dtzFqN0Zt2/bPy8skk0G13jPR3HfHpHLSmI2c5xafeM8tzrOBJvwl2YzmBj/dlKijyeIP6cMjfkbSo8TxB8wyBZ6znS7UJ58C6tEtyb0wsdkQZ7MabzOCDCeayXDuqmMzERapaR/Zkfnbra6FBBiohjVGyWI010W7bk3yWnUO9Lf0TIIHSVGlOhetSb6YKAIp7BflKTk4TJTQPfKM+ZSzXqdNI7ncE2UiDg8l0NcZ6EyqJmmO5gah0FfyD7Ghocg3STXKWVGmoDBZ8mdRSNUt2xCLJSKuxsB7UaqiUFXy7zCwWpQlWBwWsSNhqovjGQY6iHIYi8si1iXMMnHswkBdUS4DzkAK8ZPObIl/pA4GCp3BAm9FzMdHHkcl+oWelp4v6lssrkSGtkMLtAZwhnYFiyMidsClFt+TyHdaOpH2UuaIb/lX4tJPIrtxWelb/sa6IV2aMTtJHXDQDdkYixQeiNybP6W3+B+QEjq0udjM9t6IudwXfQIOOTyV0H5SfltRCgfD1wj0dy62UEWr1dmPAAv+6Krdp64FRNgYvfyzEvWuOjb+zXO0g27Up8DzHM0quQdSyNbXw03XGUPWv38iPugnojGVkV81Ckkc8KmE8AAAAABJRU5ErkJggg=="
+           width="25"/>
+</button>
 
-        <!-- Error display box -->
-        <div id="error-display"></div>
+<!-- User Guide box -->
+<div id="user-guide">
+    <p>
+        Controls for panning<br>
+        Controls for zooming (scroll and keyboard shortcuts)<br>
+        Click to expand a node<br>
+        Click to expand a level<br>
+        Reset buttons<br>
+    </p>
+</div>
 
-        <!-- User Guide box -->
-        <div id="user-guide">
-            <p>
-                Controls for panning<br>
-                Controls for zooming (scroll and keyboard shortcuts)<br>
-                Click to expand a node<br>
-                Click to expand a level<br>
-                Reset buttons<br>
-            </p>
-        </div>
-
-    </body>
+</body>
 
 </html>

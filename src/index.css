@@ -27,6 +27,15 @@
     text-align: center;
 }
 
+.btn-user-guide {
+    background-color: #fff;
+    font-family: 'Raleway';
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
 #loader {
 
     /* Size of spinner. */
@@ -100,7 +109,7 @@
     /* Styling of box. */
     color: #000000;
     /*background-color: #3498db;*/
-    background-color:rgba(52,152,219,1);
+    background-color: rgba(52, 152, 219, 1);
     text-align: center;
 
     /* Centre box in view. */
