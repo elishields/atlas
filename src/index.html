@@ -26,14 +26,21 @@
             <button type="button"
                     class="btn btn-primary background"
                     ng-click="resetToCEO()">
-                Reset to top
+                Reset to Top
             </button>
 
             <!-- Reset to me button -->
             <button type="button"
                     class="btn btn-primary background"
                     ng-click="resetToMe()">
-                Reset to me
+                Reset to Me
+            </button>
+
+            <!-- Reset to me button -->
+            <button type="button"
+                    class="btn btn-primary background"
+                    ng-click="userGuide()">
+                User Guide
             </button>
 
         </div>
@@ -41,9 +48,22 @@
         <!-- View  -->
         <div id="org-chart"></div>
 
+        <!-- Loader spinner -->
         <div id="loader"></div>
 
+        <!-- Error display box -->
         <div id="error-display"></div>
+
+        <!-- User Guide box -->
+        <div id="user-guide">
+            <p>
+                Controls for panning<br>
+                Controls for zooming (scroll and keyboard shortcuts)<br>
+                Click to expand a node<br>
+                Click to expand a level<br>
+                Reset buttons<br>
+            </p>
+        </div>
 
     </body>
 

@@ -117,6 +117,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
             });
         };
 
+
+
         // this is shown by the mouseHover event handler
         var nodeHoverAdornment =
             $(go.Adornment, "Spot",
@@ -442,4 +444,15 @@ function ($scope, $location, $http, spUtil, $timeout) {
             document.getElementById("loader").style.display = "none";
         }
     }
+
+    document.getElementById("user-guide").style.display = "none";
+    $scope.userGuide = function () {
+        var userGuideButton = document.getElementById("user-guide");
+        console.log(userGuideButton.style.display);
+        if (document.getElementById("user-guide").style.display === "none") {
+            document.getElementById("user-guide").style.display = "block";
+        } else {
+            document.getElementById("user-guide").style.display = "none";
+        }
+    };
 }

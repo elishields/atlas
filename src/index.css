@@ -46,7 +46,7 @@
     top: calc(50% - 40px);
 
     /* Prioritize spinner to front. */
-    z-index: 1000;
+    z-index: 999;
 }
 
 @keyframes spin {
@@ -86,4 +86,28 @@
 
     /* Prioritize box to front. */
     z-index: 1000;
+}
+
+#user-guide {
+
+    /* Initial display of box. */
+    /*display: none;*/
+
+    /* Size of box. */
+    width: 300px;
+    height: 300px;
+
+    /* Styling of box. */
+    color: #000000;
+    /*background-color: #3498db;*/
+    background-color:rgba(52,152,219,1);
+    text-align: center;
+
+    /* Centre box in view. */
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 40px);
+
+    /* Prioritize box to front. */
+    z-index: 998;
 }
