@@ -103,14 +103,16 @@
     /*display: none;*/
 
     /* Size of box. */
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 200px;
 
     /* Styling of box. */
-    color: #000000;
-    /*background-color: #3498db;*/
-    background-color: rgba(52, 152, 219, 1);
-    text-align: center;
+    color: #ffffff;
+    margin-bottom: 50px;
+    background-color:rgba(0,0,139,0.9);
+    border-color: #00468b;
+    border-radius: 10px;
+    text-align: left;
 
     /* Centre box in view. */
     position: absolute;
@@ -119,4 +121,8 @@
 
     /* Prioritize box to front. */
     z-index: 998;
+}
+
+th, td {
+    padding: 5px;
 }
