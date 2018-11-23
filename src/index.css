@@ -103,8 +103,9 @@
     /*display: none;*/
 
     /* Size of box. */
-    width: 500px;
-    height: 200px;
+    width: 700px;
+    height: auto;
+    padding: 20px;
 
     /* Styling of box. */
     color: #ffffff;
@@ -116,8 +117,8 @@
 
     /* Centre box in view. */
     position: absolute;
-    left: calc(50% - 100px);
-    top: calc(50% - 40px);
+    left: calc(50% - 350px);
+    top: calc(50% - 100px);
 
     /* Prioritize box to front. */
     z-index: 998;
