@@ -148,7 +148,11 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             client.data.expandedUserDirection = "parent";
                             var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
 
-                            loader(true);
+                            orgChartDiagram.isTreePathToChildren = false;
+                            if (!(clickedNode.isTreeExpanded)) {
+                                loader(true);
+                            }
+                            orgChartDiagram.isTreePathToChildren = true;
                             // get manager and team
                             client.server.update().then(function (resp) {
                                 $scope.data.nodes.forEach(function (node) {
@@ -177,7 +181,9 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             client.data.expandedUserDirection = "child";
                             var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
 
-                            loader(true);
+                            if (!(clickedNode.isTreeExpanded)) {
+                                loader(true);
+                            }
                             // get reports
                             client.server.update().then(function (resp) {
                                 $scope.data.nodes.forEach(function (node) {
