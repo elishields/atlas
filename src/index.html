@@ -1,9 +1,13 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
     <title></title>
 </head>
+
 <body>
+
 <div>
     <!-- Search -->
     <div>
@@ -14,27 +18,70 @@
                 display-fields="'title,email'"
                 value-field="'sys_id'"
                 search-fields="'name,title,department'"
-                page-size="100"
-        >
+                page-size="100">
         </sn-record-picker>
     </div>
 
-    <!-- Reset to the top button -->
-    <button type="button"
-            class="btn btn-primary background"
-            ng-click="resetToCEO()">
-            Reset to top
-    </button>
+    <div>
+        <!-- Reset to the top button -->
+        <button type="button"
+                class="btn btn-primary background"
+                ng-click="resetToCEO()">
+            Reset to Top
+        </button>
 
-    <!-- Reset to me button -->
-    <button type="button"
-            class="btn btn-primary background"
-            ng-click="resetToMe()">
-            Reset to me
-    </button>
+        <!-- Reset to me button -->
+        <button type="button"
+                class="btn btn-primary background"
+                ng-click="resetToMe()">
+            Reset to Me
+        </button>
 
+        <!-- Help guide button -->
+        <button type="button"
+                class="btn pull-right btn-user-guide"
+                ng-click="userGuide()">
+            <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAQAAABLCVATAAAB50lEQVR4AeWWA4xYQRRFz9obpw6r2LXtxqptBrVtu41dtzFqN0Zt2/bPy8skk0G13jPR3HfHpHLSmI2c5xafeM8tzrOBJvwl2YzmBj/dlKijyeIP6cMjfkbSo8TxB8wyBZ6znS7UJ58C6tEtyb0wsdkQZ7MabzOCDCeayXDuqmMzERapaR/Zkfnbra6FBBiohjVGyWI010W7bk3yWnUO9Lf0TIIHSVGlOhetSb6YKAIp7BflKTk4TJTQPfKM+ZSzXqdNI7ncE2UiDg8l0NcZ6EyqJmmO5gah0FfyD7Ghocg3STXKWVGmoDBZ8mdRSNUt2xCLJSKuxsB7UaqiUFXy7zCwWpQlWBwWsSNhqovjGQY6iHIYi8si1iXMMnHswkBdUS4DzkAK8ZPObIl/pA4GCp3BAm9FzMdHHkcl+oWelp4v6lssrkSGtkMLtAZwhnYFiyMidsClFt+TyHdaOpH2UuaIb/lX4tJPIrtxWelb/sa6IV2aMTtJHXDQDdkYixQeiNybP6W3+B+QEjq0udjM9t6IudwXfQIOOTyV0H5SfltRCgfD1wj0dy62UEWr1dmPAAv+6Krdp64FRNgYvfyzEvWuOjb+zXO0g27Up8DzHM0quQdSyNbXw03XGUPWv38iPugnojGVkV81Ckkc8KmE8AAAAABJRU5ErkJggg=="
+                   width="25"/>
+        </button>
+    </div>
 </div>
-<!-- View  -->
-<div id="org-chart"
-     style="min-width:150px; min-height:500px; width:100%; height:100%; background-color: #f4f5f7;">
+
+<div>
+    <!-- View  -->
+    <div id="org-chart"></div>
+
+    <!-- Loader spinner -->
+    <div id="loader"></div>
+
+    <!-- Error display box -->
+    <div id="error-display"></div>
 </div>
+
+<!-- User Guide box -->
+<div id="user-guide">
+    <table class="table-style">
+        <tr>
+            <td><b>Viewing Employee Information</b></td>
+            <td>Click on an employee's card to view their information.</td>
+        </tr>
+        <tr>
+            <td><b>Moving the View</b></td>
+            <td>Click and drag the background panel with your mouse.</td>
+        </tr>
+        <tr>
+            <td><b>Zooming</b></td>
+            <td>Hold control and use mouse scroll bar; or</td>
+            <td>Use the + or - keys to zoom. On Mac, hold Command and use + or -.</td>
+        </tr>
+        <tr>
+            <td><b>Resetting Tree</b></td>
+            <td>'Reset to Top' will set the tree to be focused on the employee at the top of the organization.</td>
+            <td>'Reset to User' will set the tree to be focused on the current ServiceNow user.</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+
+</html>
