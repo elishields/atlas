@@ -411,12 +411,16 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             new go.Binding("text", "mobilePhone")))
                 )
             );
-        
+
+        // Set rules for org chart UI
         orgChartDiagram.allowMove = false;
         orgChartDiagram.allowDelete = false;
         orgChartDiagram.model = $(go.TreeModel);
         orgChartDiagram.layout = $(go.TreeLayout, {angle: 360, layerSpacing: 100});
 
+        /**
+         * Adds node data from server to diagram.
+         */
         loader(true);
         $scope.data.nodes.forEach(function (node) {
             var nodeExists = orgChartDiagram.findNodeForKey(node.key);
@@ -433,6 +437,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
         orgChartDiagram.model.nodeKeyProperty = "key";
     }
 
+    /**
+     * Sets display value of loading spinner.
+     * @param show
+     */
     function loader(show) {
         if (show) {
             document.getElementById("loader").style.display = "block";
@@ -441,6 +449,10 @@ function ($scope, $location, $http, spUtil, $timeout) {
         }
     }
 
+    /**
+     * Sets display value of user help guide.
+     * @type {string}
+     */
     document.getElementById("user-guide").style.display = "none";
     $scope.userGuide = function () {
         var userGuideButton = document.getElementById("user-guide");
