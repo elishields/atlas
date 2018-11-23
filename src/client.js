@@ -149,6 +149,8 @@ function ($scope, $location, $http, spUtil, $timeout) {
                             var clickedNode = orgChartDiagram.findNodeForKey(obj.part.sh.key);
 
                             orgChartDiagram.isTreePathToChildren = false;
+                            console.log(clickedNode.isTreeExpanded);
+                            console.log(orgChartDiagram.isTreePathToChildren);
                             if (!(clickedNode.isTreeExpanded)) {
                                 loader(true);
                             }
@@ -450,7 +452,6 @@ function ($scope, $location, $http, spUtil, $timeout) {
     document.getElementById("user-guide").style.display = "none";
     $scope.userGuide = function () {
         var userGuideButton = document.getElementById("user-guide");
-        console.log(userGuideButton.style.display);
         if (document.getElementById("user-guide").style.display === "none") {
             document.getElementById("user-guide").style.display = "block";
         } else {
