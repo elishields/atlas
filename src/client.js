@@ -122,6 +122,7 @@ function ($scope, $location, $http, spUtil, $timeout) {
         var nodeHoverAdornment =
             $(go.Adornment, "Spot",
                 {
+                    cursor: "pointer",
                     background: "transparent",
                     // hide the Adornment when the mouse leaves it
                     mouseLeave: function (e, obj) {
